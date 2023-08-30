@@ -11,7 +11,7 @@ class SplashScreen extends StatelessWidget {
       const Duration duration = Duration(seconds: 3);
       Timer(duration, () {
         Navigator.pushNamedAndRemoveUntil(
-            context, GenericRouter.homeRoute, (Route<dynamic> route) => false);
+            context, GenericRouter.loginRoute, (Route<dynamic> route) => false);
       });
     });
     return Scaffold(

@@ -6,6 +6,8 @@ pre-commit:
     format_code:
       glob: '*.dart'
       run: dart format {staged_files} && git add {staged_files}
+    static_code_analysis:
+      run: flutter analyze
 
 pre-push:
   commands:

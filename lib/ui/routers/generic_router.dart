@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gami_acad/ui/views/home_screen.dart';
+import 'package:gami_acad/ui/views/login_screen.dart';
 import 'package:gami_acad/ui/views/splash_screen.dart';
 
 class GenericRouter {
+  static const String splashRoute = '/';
   static const String homeRoute = '/home';
-  static const String splashRoute = '/splash';
+  static const String loginRoute = '/login';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     WidgetBuilder builder;
@@ -14,6 +16,9 @@ class GenericRouter {
         break;
       case splashRoute:
         builder = (BuildContext _) => const SplashScreen();
+        break;
+      case loginRoute:
+        builder = (BuildContext _) => const LoginScreen();
         break;
       default:
         return MaterialPageRoute(
