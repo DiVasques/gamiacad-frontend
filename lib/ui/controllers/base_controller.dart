@@ -1,8 +1,5 @@
-// base_model.dart
 import 'package:flutter/material.dart';
-
-/// Represents the state of the view
-enum ViewState { idle, busy, error }
+import 'package:gami_acad/ui/utils/view_state.dart';
 
 class BaseController extends ChangeNotifier {
   ViewState _state = ViewState.idle;
