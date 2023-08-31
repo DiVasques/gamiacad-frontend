@@ -2,12 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gami_acad/services/models/result.dart';
+import 'package:gami_acad/repository/models/result.dart';
 import 'package:gami_acad/ui/controllers/login_controller.dart';
 import 'package:gami_acad/ui/routers/generic_router.dart';
 import 'package:gami_acad/ui/utils/app_colors.dart';
 import 'package:gami_acad/ui/utils/dimensions.dart';
-import 'package:gami_acad/ui/utils/error_messages.dart';
 import 'package:gami_acad/ui/utils/validators.dart';
 import 'package:gami_acad/ui/utils/view_state.dart';
 import 'package:gami_acad/ui/widgets/default_text_field.dart';
@@ -28,9 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late FocusNode _emailFocus;
   static const TextStyle style = TextStyle(fontSize: 20.0);
 
-  final String EMAIL_NOT_FOUND = 'user-not-found';
-  final String ERROR_WRONG_PASSWORD = 'wrong-password';
-  final String ACCOUNT_EXISTS = 'account-already-exists';
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -97,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             left: Dimensions.sidePadding,
                             right: Dimensions.sidePadding),
                         child: Form(
-                          key: loginController.formKey,
+                          key: _formKey,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -204,11 +201,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   List<Widget> _buildLoginInputs(
       LoginController loginController, BuildContext context) {
-    List<Widget> registrationPasswordInputs = [
+    List<Widget> loginInputs = [
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: DefaultTextField(
           labelText: 'CPF',
+          initValue: '12345678909',
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
           validator: FieldValidators.validateRegistration,
@@ -227,6 +225,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: DefaultTextField(
           obscureText: true,
           labelText: 'Senha',
+          initValue: 'V!12341234123',
           keyboardType: TextInputType.visiblePassword,
           textInputAction: TextInputAction.done,
           validator: FieldValidators.validatePwd,
@@ -335,9 +334,6 @@ class _LoginScreenState extends State<LoginScreen> {
           controller: _confirmPass,
           onSaved: (value) => loginController.confirmPassword = value,
           validator: (val) {
-            if (FieldValidators.validatePwd(val) != null) {
-              return 'Senha deve ter entre 6 e 12 caracteres';
-            }
             if (val != _pass.text) return 'Senhas não são iguais';
             return null;
           },
@@ -360,7 +356,7 @@ class _LoginScreenState extends State<LoginScreen> {
     ];
 
     return loginController.loginState == LoginState.login
-        ? registrationPasswordInputs
+        ? loginInputs
         : [
             Dimensions.heightSpacer(Dimensions.screenHeight(context) * 0.01),
             ...signUpInputs
@@ -382,8 +378,8 @@ class _LoginScreenState extends State<LoginScreen> {
         child: loginController.state == ViewState.idle
             ? Text(
                 loginController.loginState == LoginState.login
-                    ? "Entrar"
-                    : "Cadastrar",
+                    ? 'Entrar'
+                    : 'Cadastrar',
                 textAlign: TextAlign.start,
                 style: const TextStyle(
                   color: Colors.white,
@@ -429,7 +425,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   loginController.loginState = LoginState.signUp;
                 },
                 child: Text(
-                  "Inscreva-se",
+                  'Inscreva-se',
                   textAlign: TextAlign.left,
                   style: TextStyle(color: Theme.of(context).primaryColor),
                 ),
@@ -445,7 +441,6 @@ class _LoginScreenState extends State<LoginScreen> {
       return [
         Dimensions.heightSpacer(Dimensions.screenHeight(context) * 0.01),
         SizedBox(
-          //alignment: Alignment.centerRight,
           height: Dimensions.screenHeight(context) * 0.07,
           width: Dimensions.screenWidth(context) / 0.15,
           child: Padding(
@@ -461,15 +456,16 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _signInSignUp(LoginController loginController) {
+    if (!_validateAndSaveFields()) {
+      return;
+    }
+
     loginController.handleSignInSignUp().then(
       (result) {
         if (result.status) {
           Navigator.pushNamedAndRemoveUntil(
               context, GenericRouter.homeRoute, (Route<dynamic> route) => false,
               arguments: loginController.email);
-          return;
-        }
-        if (!result.status && result.errorCode == ErrorMessages.invalidInputs) {
           return;
         }
         showDialog(
@@ -483,42 +479,41 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  bool _validateAndSaveFields() {
+    final formState = _formKey.currentState;
+    if (formState!.validate()) {
+      formState.save();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Widget _buildErrorDialog(
       BuildContext context, LoginController loginController, Result result) {
     return AlertDialog(
       title: Center(
-        child: result.errorCode == '201'
+        child: result.code == 201
             ? const Text(
-                "Alerta",
+                'Alerta',
                 style: TextStyle(color: Colors.grey),
               )
-            : const Text("Erro", style: TextStyle(color: Colors.grey)),
+            : const Text('Erro', style: TextStyle(color: Colors.grey)),
       ),
       content: Text(
-        _getDialogErrorMessage(result),
+        result.message ?? '',
         style: const TextStyle(
           fontSize: 14,
         ),
       ),
       actions: [
         TextButton(
-          child: const Text("Fechar"),
+          child: const Text('Fechar'),
           onPressed: () {
             Navigator.of(context).pop();
           },
         )
       ],
     );
-  }
-
-  String _getDialogErrorMessage(Result result) {
-    if (result.errorCode == ACCOUNT_EXISTS) {
-      return ErrorMessages.alreadyRegistered;
-    }
-    if (result.errorCode == EMAIL_NOT_FOUND ||
-        result.errorCode == ERROR_WRONG_PASSWORD) {
-      return ErrorMessages.failedLoginAttempt;
-    }
-    return ErrorMessages.unknownError;
   }
 }
