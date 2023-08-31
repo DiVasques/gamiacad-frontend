@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:gami_acad/services/models/result.dart';
+import 'package:gami_acad/repository/models/exceptions/unauthorized_exception.dart';
+import 'package:gami_acad/repository/models/result.dart';
+import 'package:gami_acad/repository/auth_repository.dart';
 import 'package:gami_acad/ui/controllers/base_controller.dart';
 import 'package:gami_acad/ui/utils/error_messages.dart';
 import 'package:gami_acad/ui/utils/view_state.dart';
@@ -8,15 +9,17 @@ enum LoginState { login, signUp }
 
 class LoginController extends BaseController {
   LoginState _loginState = LoginState.login;
+  late AuthRepository _authRepository;
+
+  LoginController({AuthRepository? authRepository}) {
+    _authRepository = authRepository ?? AuthRepository();
+  }
 
   LoginState get loginState => _loginState;
   set loginState(LoginState loginState) {
     _loginState = loginState;
     notifyListeners();
   }
-
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  GlobalKey<FormState> get formKey => _formKey;
 
   String? _uid;
   String? _name;
@@ -72,32 +75,34 @@ class LoginController extends BaseController {
     notifyListeners();
   }
 
-  bool _validateAndSaveFields() {
-    final formState = _formKey.currentState;
-    if (formState!.validate()) {
-      formState.save();
-      return true;
-    } else {
-      return false;
+  Future<Result> handleSignInSignUp() async {
+    setState(ViewState.busy);
+    try {
+      if (_loginState == LoginState.login) {
+        return await _handleSignIn();
+      }
+      return await _handleSignUp();
+    } on UnauthorizedException {
+      return Result(status: false, message: ErrorMessages.failedLoginAttempt);
+    } on Exception catch (error) {
+      return Result(
+          status: false, message: ErrorMessages.getExceptionMessage(error));
+    } catch (error) {
+      return Result(status: false, message: ErrorMessages.unknownError);
+    } finally {
+      setState(ViewState.idle);
     }
   }
 
-  Future<Result> handleSignInSignUp() async {
-    if (_validateAndSaveFields()) {
-      setState(ViewState.busy);
-      if (_loginState == LoginState.login) {
-        await Future.delayed(const Duration(seconds: 2));
-        Result authResult = Result(status: true);
+  Future<Result> _handleSignIn() async {
+    Result authResult = await _authRepository.loginUser(
+      registration: registration!,
+      password: password!,
+    );
+    return authResult;
+  }
 
-        setState(ViewState.idle);
-        return authResult;
-      }
-      await Future.delayed(const Duration(seconds: 2));
-      Result authResult = Result(status: true);
-
-      setState(ViewState.idle);
-      return authResult;
-    }
-    return Result(status: false, errorCode: ErrorMessages.invalidInputs);
+  Future<Result> _handleSignUp() async {
+    throw Exception('not implemented');
   }
 }
