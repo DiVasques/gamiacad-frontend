@@ -33,8 +33,12 @@ jobs:
       # Your project will need to have tests in test/ and a dependency on
       # package:test for this step to succeed. Note that Flutter projects will
       # want to change this to 'flutter test'.
-      - name: Build Runner
-        run: dart run build_runner build
+      - name: Flutter Build Runner
+        uses: vhanda/flutter-build-runner-action@v1
+        with:
+          output_paths: |
+            lib/generated/
+            lib/**/*.g.dart
 
       - name: Run tests
         run: flutter test
