@@ -1,6 +1,9 @@
+import 'package:gami_acad/repository/models/exceptions/service_unavailable_exception.dart';
 import 'package:gami_acad/repository/models/exceptions/unauthorized_exception.dart';
+import 'package:gami_acad/repository/models/exceptions/user_exists_exception.dart';
 import 'package:gami_acad/repository/models/result.dart';
 import 'package:gami_acad/repository/auth_repository.dart';
+import 'package:gami_acad/repository/user_repository.dart';
 import 'package:gami_acad/ui/controllers/base_controller.dart';
 import 'package:gami_acad/ui/utils/error_messages.dart';
 import 'package:gami_acad/ui/utils/view_state.dart';
@@ -10,9 +13,12 @@ enum LoginState { login, signUp }
 class LoginController extends BaseController {
   LoginState _loginState = LoginState.login;
   late AuthRepository _authRepository;
+  late UserRepository _userRepository;
 
-  LoginController({AuthRepository? authRepository}) {
+  LoginController(
+      {AuthRepository? authRepository, UserRepository? userRepository}) {
     _authRepository = authRepository ?? AuthRepository();
+    _userRepository = userRepository ?? UserRepository();
   }
 
   LoginState get loginState => _loginState;
@@ -84,6 +90,8 @@ class LoginController extends BaseController {
       return await _handleSignUp();
     } on UnauthorizedException {
       return Result(status: false, message: ErrorMessages.failedLoginAttempt);
+    } on UserExistsException {
+      return Result(status: false, message: ErrorMessages.alreadyRegistered);
     } on Exception catch (error) {
       return Result(
           status: false, message: ErrorMessages.getExceptionMessage(error));
@@ -95,14 +103,25 @@ class LoginController extends BaseController {
   }
 
   Future<Result> _handleSignIn() async {
-    Result authResult = await _authRepository.loginUser(
+    return await _authRepository.loginUser(
       registration: registration!,
       password: password!,
     );
-    return authResult;
   }
 
   Future<Result> _handleSignUp() async {
-    throw Exception('not implemented');
+    Result authResult = await _authRepository.signUpUser(
+      registration: registration!,
+      password: password!,
+    );
+    if (!authResult.status) {
+      throw ServiceUnavailableException();
+    }
+    authResult = await _userRepository.addUser(
+      id: _authRepository.user.id,
+      name: name!,
+      email: email!,
+    );
+    return authResult;
   }
 }
