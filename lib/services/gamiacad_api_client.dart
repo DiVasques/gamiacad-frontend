@@ -14,6 +14,7 @@ class GamiAcadAPIClient {
     required String path,
     Map<String, String>? headers,
     Object? body,
+    String? token,
   }) async {
     Uri url = Uri.http(
       _baseUrl,
@@ -23,17 +24,19 @@ class GamiAcadAPIClient {
     return await http
         .post(
           url,
-          headers: _configureHeaders(headers),
+          headers: _configureHeaders(headers, token),
           body: json.encode(body),
         )
         .timeout(const Duration(seconds: 30));
   }
 
-  static Map<String, String> _configureHeaders(Map<String, String>? headers) {
-    if (headers != null) {
-      headers.addAll(_baseHeaders);
-      return headers;
+  static Map<String, String> _configureHeaders(
+      Map<String, String>? headers, String? token) {
+    Map<String, String> requestHeaders = headers ?? <String, String>{};
+    requestHeaders.addAll(_baseHeaders);
+    if (token != null) {
+      requestHeaders['Authorization'] = 'Bearer $token';
     }
-    return _baseHeaders;
+    return requestHeaders;
   }
 }

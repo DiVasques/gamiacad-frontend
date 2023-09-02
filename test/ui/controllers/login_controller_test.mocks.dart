@@ -8,6 +8,7 @@ import 'dart:async' as _i5;
 import 'package:gami_acad/repository/auth_repository.dart' as _i4;
 import 'package:gami_acad/repository/models/result.dart' as _i3;
 import 'package:gami_acad/repository/models/user_access.dart' as _i2;
+import 'package:gami_acad/repository/user_repository.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -87,6 +88,71 @@ class MockAuthRepository extends _i1.Mock implements _i4.AuthRepository {
             {
               #registration: registration,
               #password: password,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.Result>);
+  @override
+  _i5.Future<_i3.Result> signUpUser({
+    required String? registration,
+    required String? password,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #signUpUser,
+          [],
+          {
+            #registration: registration,
+            #password: password,
+          },
+        ),
+        returnValue: _i5.Future<_i3.Result>.value(_FakeResult_1(
+          this,
+          Invocation.method(
+            #signUpUser,
+            [],
+            {
+              #registration: registration,
+              #password: password,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.Result>);
+}
+
+/// A class which mocks [UserRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockUserRepository extends _i1.Mock implements _i6.UserRepository {
+  MockUserRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<_i3.Result> addUser({
+    required String? id,
+    required String? name,
+    required String? email,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addUser,
+          [],
+          {
+            #id: id,
+            #name: name,
+            #email: email,
+          },
+        ),
+        returnValue: _i5.Future<_i3.Result>.value(_FakeResult_1(
+          this,
+          Invocation.method(
+            #addUser,
+            [],
+            {
+              #id: id,
+              #name: name,
+              #email: email,
             },
           ),
         )),
