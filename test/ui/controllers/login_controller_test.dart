@@ -90,8 +90,11 @@ void main() {
         ));
 
         when(userRepository.addUser(
-                name: 'valid_name', email: 'valid_email', id: 'valid-id'))
-            .thenAnswer((_) async => Result(status: true, message: 'Success'));
+          name: 'valid_name',
+          email: 'valid_email',
+          id: 'valid-id',
+          registration: 'valid_registration',
+        )).thenAnswer((_) async => Result(status: true, message: 'Success'));
 
         // Act
         final result = await loginController.handleSignInSignUp();
@@ -119,7 +122,7 @@ void main() {
 
         // Assert
         expect(result.status, false);
-        expect(result.message, ErrorMessages.alreadyRegistered);
+        expect(result.message, UserExistsException().toString());
         expect(loginController.state, ViewState.idle);
       });
     });
