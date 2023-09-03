@@ -160,6 +160,7 @@ class MockUserRepository extends _i1.Mock implements _i7.UserRepository {
     required String? id,
     required String? name,
     required String? email,
+    required String? registration,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -169,6 +170,7 @@ class MockUserRepository extends _i1.Mock implements _i7.UserRepository {
             #id: id,
             #name: name,
             #email: email,
+            #registration: registration,
           },
         ),
         returnValue: _i6.Future<_i3.Result>.value(_FakeResult_1(
@@ -180,6 +182,7 @@ class MockUserRepository extends _i1.Mock implements _i7.UserRepository {
               #id: id,
               #name: name,
               #email: email,
+              #registration: registration,
             },
           ),
         )),

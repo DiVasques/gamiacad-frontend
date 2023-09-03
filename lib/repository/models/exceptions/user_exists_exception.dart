@@ -1,5 +1,11 @@
 class UserExistsException implements Exception {
+  String message;
   UserExistsException({
-    String message = 'Usuário já cadastrado com o CPF informado.',
+    this.message = 'Usuário já cadastrado com o CPF informado.',
   });
+
+  @override
+  String toString() {
+    return message;
+  }
 }

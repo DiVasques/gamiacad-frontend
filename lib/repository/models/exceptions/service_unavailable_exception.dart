@@ -1,5 +1,11 @@
 class ServiceUnavailableException implements Exception {
+  String message;
   ServiceUnavailableException({
-    String message = 'Serviço indisponível. Tente novamente mais tarde.',
+    this.message = 'Serviço indisponível. Tente novamente mais tarde.',
   });
+
+  @override
+  String toString() {
+    return message;
+  }
 }

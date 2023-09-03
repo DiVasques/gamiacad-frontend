@@ -1,5 +1,11 @@
 class BadRequestException implements Exception {
+  String message;
   BadRequestException({
-    String message = 'Ocorreu um erro. Tente novamente mais tarde.',
+    this.message = 'Ocorreu um erro. Tente novamente mais tarde.',
   });
+
+  @override
+  String toString() {
+    return message;
+  }
 }

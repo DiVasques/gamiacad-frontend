@@ -1,5 +1,11 @@
 class ForbiddenException implements Exception {
+  String message;
   ForbiddenException({
-    String message = 'Acesso negado.',
+    this.message = 'Acesso negado.',
   });
+
+  @override
+  String toString() {
+    return message;
+  }
 }

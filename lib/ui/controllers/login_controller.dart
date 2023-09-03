@@ -93,11 +93,10 @@ class LoginController extends BaseController {
       return await _handleSignUp();
     } on UnauthorizedException {
       return Result(status: false, message: ErrorMessages.failedLoginAttempt);
-    } on UserExistsException {
-      return Result(status: false, message: ErrorMessages.alreadyRegistered);
-    } on Exception catch (error) {
-      return Result(
-          status: false, message: ErrorMessages.getExceptionMessage(error));
+    } on UserExistsException catch (e) {
+      return Result(status: false, message: e.toString());
+    } on ServiceUnavailableException catch (e) {
+      return Result(status: false, message: e.toString());
     } catch (error) {
       return Result(status: false, message: ErrorMessages.unknownError);
     } finally {
@@ -124,6 +123,7 @@ class LoginController extends BaseController {
       id: _authRepository.user.id,
       name: name!,
       email: email!,
+      registration: registration!,
     );
     return authResult;
   }
