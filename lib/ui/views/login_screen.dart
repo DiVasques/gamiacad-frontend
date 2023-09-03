@@ -465,7 +465,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (result.status) {
           Navigator.pushNamedAndRemoveUntil(
               context, GenericRouter.homeRoute, (Route<dynamic> route) => false,
-              arguments: loginController.email);
+              arguments: loginController.userAccess.id);
           return;
         }
         showDialog(

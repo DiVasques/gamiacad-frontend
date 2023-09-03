@@ -12,7 +12,8 @@ class GenericRouter {
     WidgetBuilder builder;
     switch (settings.name) {
       case homeRoute:
-        builder = (BuildContext _) => const HomeScreen();
+        builder = (BuildContext _) =>
+            HomeScreen(userId: settings.arguments as String);
         break;
       case splashRoute:
         builder = (BuildContext _) => const SplashScreen();

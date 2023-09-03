@@ -3,6 +3,7 @@ import 'package:gami_acad/repository/models/exceptions/unauthorized_exception.da
 import 'package:gami_acad/repository/models/exceptions/user_exists_exception.dart';
 import 'package:gami_acad/repository/models/result.dart';
 import 'package:gami_acad/repository/auth_repository.dart';
+import 'package:gami_acad/repository/models/user_access.dart';
 import 'package:gami_acad/repository/user_repository.dart';
 import 'package:gami_acad/ui/controllers/base_controller.dart';
 import 'package:gami_acad/ui/utils/error_messages.dart';
@@ -20,6 +21,8 @@ class LoginController extends BaseController {
     _authRepository = authRepository ?? AuthRepository();
     _userRepository = userRepository ?? UserRepository();
   }
+
+  UserAccess get userAccess => _authRepository.user;
 
   LoginState get loginState => _loginState;
   set loginState(LoginState loginState) {

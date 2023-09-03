@@ -15,10 +15,12 @@ class GamiAcadAPIClient {
     Map<String, String>? headers,
     Object? body,
     String? token,
+    Map<String, dynamic>? query,
   }) async {
     Uri url = Uri.http(
       _baseUrl,
       '/api$path',
+      query,
     );
 
     return await http
@@ -26,6 +28,26 @@ class GamiAcadAPIClient {
           url,
           headers: _configureHeaders(headers, token),
           body: json.encode(body),
+        )
+        .timeout(const Duration(seconds: 30));
+  }
+
+  static Future<http.Response> get({
+    required String path,
+    Map<String, String>? headers,
+    String? token,
+    Map<String, dynamic>? query,
+  }) async {
+    Uri url = Uri.http(
+      _baseUrl,
+      '/api$path',
+      query,
+    );
+
+    return await http
+        .get(
+          url,
+          headers: _configureHeaders(headers, token),
         )
         .timeout(const Duration(seconds: 30));
   }
