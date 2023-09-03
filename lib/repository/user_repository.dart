@@ -5,14 +5,17 @@ import 'package:gami_acad/repository/models/exceptions/unauthorized_exception.da
 import 'package:gami_acad/repository/models/user.dart';
 import 'package:gami_acad/repository/models/result.dart';
 import 'package:gami_acad/services/gamiacad_dio_client.dart';
-import 'package:gami_acad/services/models/storage_keys.dart';
-import 'package:gami_acad/services/secure_storage.dart';
 
 class UserRepository {
   late User user;
 
-  final SecureStorage _secureStorage = SecureStorage();
-  final GamiAcadDioClient _gamiAcadDioClient = GamiAcadDioClient();
+  late final GamiAcadDioClient _gamiAcadDioClient;
+
+  UserRepository({
+    GamiAcadDioClient? gamiAcadDioClient,
+  }) {
+    _gamiAcadDioClient = gamiAcadDioClient ?? GamiAcadDioClient();
+  }
 
   Future<Result> addUser({
     required String id,
@@ -28,7 +31,6 @@ class UserRepository {
           'email': email,
           'registration': registration,
         },
-        token: await _secureStorage.read(key: StorageKeys.accessToken),
       );
       var result = Result(
         status: false,
@@ -54,7 +56,6 @@ class UserRepository {
     try {
       var response = await _gamiAcadDioClient.get(
         path: '/user/$id',
-        token: await _secureStorage.read(key: StorageKeys.accessToken),
       );
       var result = Result(
         status: false,

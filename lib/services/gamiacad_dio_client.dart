@@ -59,7 +59,6 @@ class GamiAcadDioClient {
     required String path,
     Map<String, String>? headers,
     Object? body,
-    String? token,
     Map<String, dynamic>? query,
   }) async {
     return await _dio.post(
@@ -73,7 +72,6 @@ class GamiAcadDioClient {
     required String path,
     Map<String, String>? headers,
     Object? body,
-    String? token,
     Map<String, dynamic>? query,
   }) async {
     return await _dio.get(path, queryParameters: query);

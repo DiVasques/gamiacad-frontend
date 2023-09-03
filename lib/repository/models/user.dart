@@ -1,10 +1,12 @@
 class User {
+  String id;
   String name;
   String email;
   String registration;
   int balance;
   int totalPoints;
   User({
+    required this.id,
     required this.name,
     required this.email,
     required this.registration,
@@ -13,6 +15,7 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
+        id: json['_id'],
         name: json['name'],
         email: json['email'],
         registration: json['registration'],
@@ -21,6 +24,7 @@ class User {
       );
 
   Map<String, dynamic> toJson() => {
+        '_id': id,
         'name': name,
         'email': email,
         'registration': registration,

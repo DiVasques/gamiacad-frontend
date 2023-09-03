@@ -11,8 +11,16 @@ import 'package:gami_acad/services/secure_storage.dart';
 class AuthRepository {
   late UserAccess user;
 
-  final SecureStorage _secureStorage = SecureStorage();
-  final GamiAcadDioClient _gamiAcadDioClient = GamiAcadDioClient();
+  late final SecureStorage _secureStorage;
+  late final GamiAcadDioClient _gamiAcadDioClient;
+
+  AuthRepository({
+    SecureStorage? secureStorage,
+    GamiAcadDioClient? gamiAcadDioClient,
+  }) {
+    _secureStorage = secureStorage ?? SecureStorage();
+    _gamiAcadDioClient = gamiAcadDioClient ?? GamiAcadDioClient();
+  }
 
   Future<Result> loginUser({
     required String registration,
@@ -79,6 +87,8 @@ class AuthRepository {
       if (error.response?.statusCode == 409) {
         throw UserExistsException();
       }
+      throw ServiceUnavailableException();
+    } catch (e) {
       throw ServiceUnavailableException();
     }
   }

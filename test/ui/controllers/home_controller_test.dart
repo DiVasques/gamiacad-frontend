@@ -17,9 +17,12 @@ void main() {
     late HomeController homeController;
     late MockUserRepository userRepository;
 
+    String userId = 'userId';
+
     setUp(() {
       userRepository = MockUserRepository();
       when(userRepository.user).thenReturn(User(
+        id: userId,
         name: 'name',
         email: 'email',
         registration: 'registration',
@@ -31,10 +34,10 @@ void main() {
     group('getUser', () {
       test('should return user', () async {
         // Arrange
-        when(userRepository.getUser(id: 'user-id'))
+        when(userRepository.getUser(id: userId))
             .thenAnswer((_) async => Result(status: true, message: 'Success'));
         homeController = HomeController(
-          userId: 'user-id',
+          userId: userId,
           userRepository: userRepository,
         );
 
@@ -48,10 +51,10 @@ void main() {
       test('should return unsuccessful result on failed login attempt',
           () async {
         // Arrange
-        when(userRepository.getUser(id: 'user-id'))
+        when(userRepository.getUser(id: userId))
             .thenAnswer((_) async => Result(status: false, message: 'Error'));
         homeController = HomeController(
-          userId: 'user-id',
+          userId: userId,
           userRepository: userRepository,
         );
 
