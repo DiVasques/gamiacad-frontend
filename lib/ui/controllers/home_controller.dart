@@ -5,12 +5,14 @@ import 'package:gami_acad/ui/controllers/base_controller.dart';
 import 'package:gami_acad/ui/utils/view_state.dart';
 
 class HomeController extends BaseController {
-  final String userId;
-  HomeController({required this.userId}) {
+  late String userId;
+  late UserRepository _userRepository;
+
+  HomeController({required this.userId, UserRepository? userRepository}) {
+    _userRepository = userRepository ?? UserRepository();
     getUser();
   }
 
-  final UserRepository _userRepository = UserRepository();
   User get user => _userRepository.user;
 
   Future<void> getUser() async {
