@@ -13,6 +13,7 @@ dependencies:
   provider: ^6.0.5
   http:
   flutter_secure_storage: ^9.0.0
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
