@@ -129,6 +129,20 @@ class MockAuthRepository extends _i1.Mock implements _i5.AuthRepository {
           ),
         )),
       ) as _i6.Future<_i3.Result>);
+  @override
+  _i6.Future<_i3.Result> logoutUser() => (super.noSuchMethod(
+        Invocation.method(
+          #logoutUser,
+          [],
+        ),
+        returnValue: _i6.Future<_i3.Result>.value(_FakeResult_1(
+          this,
+          Invocation.method(
+            #logoutUser,
+            [],
+          ),
+        )),
+      ) as _i6.Future<_i3.Result>);
 }
 
 /// A class which mocks [UserRepository].

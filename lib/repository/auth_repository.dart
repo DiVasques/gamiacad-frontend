@@ -93,11 +93,35 @@ class AuthRepository {
     }
   }
 
+  Future<Result> logoutUser() async {
+    try {
+      await _gamiAcadDioClient.post(
+        path: '/logout',
+        body: {
+          'token': await _secureStorage.read(key: StorageKeys.refreshToken)
+        },
+      );
+    } catch (e) {
+      //Should erase user access even with errors
+    } finally {
+      await _eraseUserAccess();
+    }
+    return Result(
+      status: true,
+    );
+  }
+
   Future<void> _saveUserAccess(UserAccess user) async {
     await _secureStorage.write(key: StorageKeys.userId, value: user.id);
     await _secureStorage.write(
         key: StorageKeys.accessToken, value: user.accessToken);
     await _secureStorage.write(
         key: StorageKeys.refreshToken, value: user.refreshToken);
+  }
+
+  Future<void> _eraseUserAccess() async {
+    await _secureStorage.delete(key: StorageKeys.userId);
+    await _secureStorage.delete(key: StorageKeys.accessToken);
+    await _secureStorage.delete(key: StorageKeys.refreshToken);
   }
 }

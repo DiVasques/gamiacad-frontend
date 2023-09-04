@@ -123,6 +123,7 @@ class HomeDrawer extends StatelessWidget {
                                 color: theme.primaryColor,
                               ),
                               onTap: () {
+                                homeController.logoutUser();
                                 Navigator.pushNamedAndRemoveUntil(
                                   context,
                                   GenericRouter.loginRoute,
