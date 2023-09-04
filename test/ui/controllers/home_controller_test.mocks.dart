@@ -3,11 +3,13 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i6;
 
+import 'package:gami_acad/repository/auth_repository.dart' as _i5;
 import 'package:gami_acad/repository/models/result.dart' as _i3;
-import 'package:gami_acad/repository/models/user.dart' as _i2;
-import 'package:gami_acad/repository/user_repository.dart' as _i4;
+import 'package:gami_acad/repository/models/user.dart' as _i4;
+import 'package:gami_acad/repository/models/user_access.dart' as _i2;
+import 'package:gami_acad/repository/user_repository.dart' as _i7;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -21,8 +23,8 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeUser_0 extends _i1.SmartFake implements _i2.User {
-  _FakeUser_0(
+class _FakeUserAccess_0 extends _i1.SmartFake implements _i2.UserAccess {
+  _FakeUserAccess_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -41,24 +43,34 @@ class _FakeResult_1 extends _i1.SmartFake implements _i3.Result {
         );
 }
 
-/// A class which mocks [UserRepository].
+class _FakeUser_2 extends _i1.SmartFake implements _i4.User {
+  _FakeUser_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+/// A class which mocks [AuthRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUserRepository extends _i1.Mock implements _i4.UserRepository {
-  MockUserRepository() {
+class MockAuthRepository extends _i1.Mock implements _i5.AuthRepository {
+  MockAuthRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i2.User get user => (super.noSuchMethod(
+  _i2.UserAccess get user => (super.noSuchMethod(
         Invocation.getter(#user),
-        returnValue: _FakeUser_0(
+        returnValue: _FakeUserAccess_0(
           this,
           Invocation.getter(#user),
         ),
-      ) as _i2.User);
+      ) as _i2.UserAccess);
   @override
-  set user(_i2.User? _user) => super.noSuchMethod(
+  set user(_i2.UserAccess? _user) => super.noSuchMethod(
         Invocation.setter(
           #user,
           _user,
@@ -66,7 +78,99 @@ class MockUserRepository extends _i1.Mock implements _i4.UserRepository {
         returnValueForMissingStub: null,
       );
   @override
-  _i5.Future<_i3.Result> addUser({
+  _i6.Future<_i3.Result> loginUser({
+    required String? registration,
+    required String? password,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #loginUser,
+          [],
+          {
+            #registration: registration,
+            #password: password,
+          },
+        ),
+        returnValue: _i6.Future<_i3.Result>.value(_FakeResult_1(
+          this,
+          Invocation.method(
+            #loginUser,
+            [],
+            {
+              #registration: registration,
+              #password: password,
+            },
+          ),
+        )),
+      ) as _i6.Future<_i3.Result>);
+  @override
+  _i6.Future<_i3.Result> signUpUser({
+    required String? registration,
+    required String? password,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #signUpUser,
+          [],
+          {
+            #registration: registration,
+            #password: password,
+          },
+        ),
+        returnValue: _i6.Future<_i3.Result>.value(_FakeResult_1(
+          this,
+          Invocation.method(
+            #signUpUser,
+            [],
+            {
+              #registration: registration,
+              #password: password,
+            },
+          ),
+        )),
+      ) as _i6.Future<_i3.Result>);
+  @override
+  _i6.Future<_i3.Result> logoutUser() => (super.noSuchMethod(
+        Invocation.method(
+          #logoutUser,
+          [],
+        ),
+        returnValue: _i6.Future<_i3.Result>.value(_FakeResult_1(
+          this,
+          Invocation.method(
+            #logoutUser,
+            [],
+          ),
+        )),
+      ) as _i6.Future<_i3.Result>);
+}
+
+/// A class which mocks [UserRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockUserRepository extends _i1.Mock implements _i7.UserRepository {
+  MockUserRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.User get user => (super.noSuchMethod(
+        Invocation.getter(#user),
+        returnValue: _FakeUser_2(
+          this,
+          Invocation.getter(#user),
+        ),
+      ) as _i4.User);
+  @override
+  set user(_i4.User? _user) => super.noSuchMethod(
+        Invocation.setter(
+          #user,
+          _user,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i6.Future<_i3.Result> addUser({
     required String? id,
     required String? name,
     required String? email,
@@ -83,7 +187,7 @@ class MockUserRepository extends _i1.Mock implements _i4.UserRepository {
             #registration: registration,
           },
         ),
-        returnValue: _i5.Future<_i3.Result>.value(_FakeResult_1(
+        returnValue: _i6.Future<_i3.Result>.value(_FakeResult_1(
           this,
           Invocation.method(
             #addUser,
@@ -96,15 +200,15 @@ class MockUserRepository extends _i1.Mock implements _i4.UserRepository {
             },
           ),
         )),
-      ) as _i5.Future<_i3.Result>);
+      ) as _i6.Future<_i3.Result>);
   @override
-  _i5.Future<_i3.Result> getUser({required String? id}) => (super.noSuchMethod(
+  _i6.Future<_i3.Result> getUser({required String? id}) => (super.noSuchMethod(
         Invocation.method(
           #getUser,
           [],
           {#id: id},
         ),
-        returnValue: _i5.Future<_i3.Result>.value(_FakeResult_1(
+        returnValue: _i6.Future<_i3.Result>.value(_FakeResult_1(
           this,
           Invocation.method(
             #getUser,
@@ -112,5 +216,5 @@ class MockUserRepository extends _i1.Mock implements _i4.UserRepository {
             {#id: id},
           ),
         )),
-      ) as _i5.Future<_i3.Result>);
+      ) as _i6.Future<_i3.Result>);
 }

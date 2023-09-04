@@ -42,6 +42,14 @@ void main() {
       when(secureStorage.write(
               key: StorageKeys.refreshToken, value: refreshToken))
           .thenAnswer((_) async {});
+      when(secureStorage.delete(key: StorageKeys.userId))
+          .thenAnswer((_) async {});
+      when(secureStorage.delete(key: StorageKeys.accessToken))
+          .thenAnswer((_) async {});
+      when(secureStorage.delete(key: StorageKeys.refreshToken))
+          .thenAnswer((_) async {});
+      when(secureStorage.read(key: StorageKeys.refreshToken))
+          .thenAnswer((_) async => refreshToken);
     });
 
     group('loginUser', () {
@@ -294,6 +302,51 @@ void main() {
         } catch (e) {
           expect(e.runtimeType, ServiceUnavailableException);
         }
+      });
+    });
+
+    group('logoutUser', () {
+      test('should logout user', () async {
+        // Arrange
+        Response response = Response(
+          requestOptions: RequestOptions(),
+          statusCode: 200,
+          statusMessage: 'Success',
+        );
+        when(gamiAcadDioClient.post(
+          path: '/logout',
+          body: {
+            'token': refreshToken,
+          },
+        )).thenAnswer((_) async => response);
+
+        // Act
+        final result = await authRepository.logoutUser();
+
+        // Assert
+        expect(result.status, true);
+        verify(secureStorage.delete(key: StorageKeys.userId));
+        verify(secureStorage.delete(key: StorageKeys.accessToken));
+        verify(secureStorage.delete(key: StorageKeys.refreshToken));
+      });
+
+      test('should erase user access even with errors', () async {
+        // Arrange
+        when(gamiAcadDioClient.post(
+          path: '/logout',
+          body: {
+            'token': refreshToken,
+          },
+        )).thenAnswer((_) async => throw Exception());
+
+        // Act
+        final result = await authRepository.logoutUser();
+
+        // Assert
+        expect(result.status, true);
+        verify(secureStorage.delete(key: StorageKeys.userId));
+        verify(secureStorage.delete(key: StorageKeys.accessToken));
+        verify(secureStorage.delete(key: StorageKeys.refreshToken));
       });
     });
   });

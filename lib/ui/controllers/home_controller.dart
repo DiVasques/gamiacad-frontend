@@ -1,3 +1,4 @@
+import 'package:gami_acad/repository/auth_repository.dart';
 import 'package:gami_acad/repository/models/exceptions/service_unavailable_exception.dart';
 import 'package:gami_acad/repository/models/exceptions/unauthorized_exception.dart';
 import 'package:gami_acad/repository/models/result.dart';
@@ -10,9 +11,14 @@ import 'package:gami_acad/ui/utils/view_state.dart';
 class HomeController extends BaseController {
   late String userId;
   late UserRepository _userRepository;
+  late AuthRepository _authRepository;
 
-  HomeController({required this.userId, UserRepository? userRepository}) {
+  HomeController(
+      {required this.userId,
+      UserRepository? userRepository,
+      AuthRepository? authRepository}) {
     _userRepository = userRepository ?? UserRepository();
+    _authRepository = authRepository ?? AuthRepository();
     getUser();
   }
 
@@ -37,6 +43,17 @@ class HomeController extends BaseController {
     } catch (e) {
       setErrorMessage(ErrorMessages.unknownError);
       setState(ViewState.error);
+    }
+  }
+
+  Future<void> logoutUser() async {
+    setState(ViewState.busy);
+    try {
+      await _authRepository.logoutUser();
+    } catch (e) {
+      //Should go idle even with errors
+    } finally {
+      setState(ViewState.idle);
     }
   }
 }
