@@ -17,10 +17,10 @@ class MissionRepository {
     _gamiAcadDioClient = gamiAcadDioClient ?? GamiAcadDioClient();
   }
 
-  Future<Result> getUserMissions({required String id}) async {
+  Future<Result> getUserMissions({required String userId}) async {
     try {
       var response = await _gamiAcadDioClient.get(
-        path: '/user/$id/mission',
+        path: '/user/$userId/mission',
       );
       var result = Result(
         status: false,
