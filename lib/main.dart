@@ -23,6 +23,9 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Montserrat',
         primaryColor: const Color(0xFF1F5F02),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF1F5F02),
+        ),
       ),
       onGenerateRoute: GenericRouter.generateRoute,
       initialRoute: GenericRouter.splashRoute,
