@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gami_acad/ui/controllers/home_controller.dart';
+import 'package:gami_acad/ui/routers/generic_router.dart';
 import 'package:gami_acad/ui/utils/view_state.dart';
 import 'package:gami_acad/ui/widgets/default_error_screen.dart';
 import 'package:gami_acad/ui/widgets/default_loading_screen.dart';
@@ -23,10 +24,6 @@ class HomeScreen extends StatelessWidget {
             key: _scaffoldKey,
             drawer: const HomeDrawer(),
             appBar: AppBar(
-              iconTheme: IconThemeData(color: theme.primaryColor),
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              centerTitle: true,
               title: Text(
                 'GamiAcad',
                 style: TextStyle(
@@ -55,10 +52,19 @@ class HomeScreen extends StatelessWidget {
                           onRefresh: () => homeController.getUser(),
                           child: ListView(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            children: const [
-                              HomeUserInfoCard(),
-                              SizedBox(
+                            children: [
+                              const HomeUserInfoCard(),
+                              const SizedBox(
                                 height: 10,
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).pushNamed(
+                                    GenericRouter.missionRoute,
+                                    arguments: userId,
+                                  );
+                                },
+                                icon: const Icon(Icons.grading_outlined),
                               ),
                             ],
                           ),
