@@ -1,15 +1,15 @@
-import 'package:gami_acad/repository/mission_repository.dart';
+import 'package:gami_acad/repository/reward_repository.dart';
 import 'package:gami_acad/repository/models/exceptions/service_unavailable_exception.dart';
 import 'package:gami_acad/repository/models/exceptions/unauthorized_exception.dart';
 import 'package:gami_acad/repository/models/result.dart';
-import 'package:gami_acad/repository/models/user_missions.dart';
+import 'package:gami_acad/repository/models/user_rewards.dart';
 import 'package:gami_acad/ui/controllers/base_controller.dart';
 import 'package:gami_acad/ui/utils/error_messages.dart';
 import 'package:gami_acad/ui/utils/view_state.dart';
 
-class MissionController extends BaseController {
+class RewardController extends BaseController {
   late String userId;
-  late MissionRepository _missionRepository;
+  late RewardRepository _rewardRepository;
 
   int _navigationIndex = 0;
   int get navigationIndex => _navigationIndex;
@@ -18,20 +18,20 @@ class MissionController extends BaseController {
     notifyListeners();
   }
 
-  MissionController({
+  RewardController({
     required this.userId,
-    MissionRepository? missionRepository,
+    RewardRepository? rewardRepository,
   }) {
-    _missionRepository = missionRepository ?? MissionRepository();
-    getUserMissions();
+    _rewardRepository = rewardRepository ?? RewardRepository();
+    getUserRewards();
   }
 
-  UserMissions get userMissions => _missionRepository.userMissions;
+  UserRewards get userRewards => _rewardRepository.userRewards;
 
-  Future<void> getUserMissions() async {
+  Future<void> getUserRewards() async {
     setState(ViewState.busy);
     try {
-      Result result = await _missionRepository.getUserMissions(userId: userId);
+      Result result = await _rewardRepository.getUserRewards(userId: userId);
 
       if (result.status) {
         setState(ViewState.idle);

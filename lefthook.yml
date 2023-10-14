@@ -7,11 +7,14 @@ pre-commit:
       glob: '*.dart'
       run: dart format {staged_files} && git add {staged_files}
     static_code_analysis:
-      run: flutter analyze
+      glob: '*.dart'
+      run: flutter analyze {all_files}
 
 pre-push:
   commands:
     static_code_analysis:
-      run: flutter analyze
+      glob: '*.dart'
+      run: flutter analyze {all_files}
     tests:
-      run: flutter test
+      glob: '*test.dart'
+      run: flutter test {all_files}
