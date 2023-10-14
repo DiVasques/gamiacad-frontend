@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:gami_acad/repository/mission_repository.dart';
 import 'package:gami_acad/repository/models/base_mission.dart';
 import 'package:gami_acad/repository/models/result.dart';
-import 'package:gami_acad/repository/models/user_missions_.dart';
+import 'package:gami_acad/repository/models/user_missions.dart';
 import 'package:gami_acad/ui/controllers/mission_controller.dart';
 import 'package:gami_acad/ui/utils/view_state.dart';
 import 'package:mockito/annotations.dart';
