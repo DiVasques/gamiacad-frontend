@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gami_acad/ui/controllers/home_controller.dart';
 import 'package:gami_acad/ui/routers/generic_router.dart';
-import 'package:gami_acad/ui/utils/string_extension.dart';
+import 'package:gami_acad/ui/utils/extensions/string_extension.dart';
 import 'package:gami_acad/ui/utils/view_state.dart';
 import 'package:provider/provider.dart';
 

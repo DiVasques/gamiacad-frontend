@@ -3,7 +3,7 @@ import 'package:gami_acad/repository/models/base_mission.dart';
 import 'package:gami_acad/ui/controllers/mission_controller.dart';
 import 'package:gami_acad/ui/routers/generic_router.dart';
 import 'package:gami_acad/ui/utils/app_texts.dart';
-import 'package:gami_acad/ui/utils/int_extension.dart';
+import 'package:gami_acad/ui/utils/extensions/int_extension.dart';
 import 'package:gami_acad/ui/widgets/default_list_tile.dart';
 import 'package:gami_acad/ui/widgets/default_separated_list_view.dart';
 import 'package:provider/provider.dart';
