@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gami_acad/ui/controllers/home_controller.dart';
 import 'package:gami_acad/ui/utils/dimensions.dart';
-import 'package:gami_acad/ui/utils/int_extension.dart';
-import 'package:gami_acad/ui/utils/string_extension.dart';
+import 'package:gami_acad/ui/utils/extensions/int_extension.dart';
+import 'package:gami_acad/ui/utils/extensions/string_extension.dart';
 import 'package:provider/provider.dart';
 
 class HomeUserInfoCard extends StatelessWidget {
