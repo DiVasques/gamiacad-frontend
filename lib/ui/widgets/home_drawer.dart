@@ -34,7 +34,7 @@ class HomeDrawer extends StatelessWidget {
                                         alignment: Alignment.bottomLeft,
                                         height: 50,
                                         child: Text(
-                                          "Erro ao carregar os dados",
+                                          'Erro ao carregar os dados',
                                           style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
@@ -44,7 +44,7 @@ class HomeDrawer extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 20),
                                       ListTile(
-                                        title: const Text("Recarregar"),
+                                        title: const Text('Recarregar'),
                                         trailing: Icon(
                                           Icons.replay_outlined,
                                           color: theme.primaryColor,
@@ -60,7 +60,7 @@ class HomeDrawer extends StatelessWidget {
                               ),
                             ),
                             ListTile(
-                              title: const Text("Sair"),
+                              title: const Text('Sair'),
                               trailing: Icon(
                                 Icons.exit_to_app,
                                 color: theme.primaryColor,
@@ -91,7 +91,7 @@ class HomeDrawer extends StatelessWidget {
                                         alignment: Alignment.bottomLeft,
                                         height: 50,
                                         child: Text(
-                                          "Bem-vindo, ${homeController.user.name.split(" ")[0].capitalize()}",
+                                          'Bem-vindo, ${homeController.user.name.split(' ')[0].capitalize()}',
                                           style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
@@ -101,7 +101,7 @@ class HomeDrawer extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 20),
                                       ListTile(
-                                        title: const Text("Recarregar"),
+                                        title: const Text('Recarregar'),
                                         trailing: Icon(
                                           Icons.replay_outlined,
                                           color: theme.primaryColor,
@@ -117,7 +117,7 @@ class HomeDrawer extends StatelessWidget {
                               ),
                             ),
                             ListTile(
-                              title: const Text("Sair"),
+                              title: const Text('Sair'),
                               trailing: Icon(
                                 Icons.exit_to_app,
                                 color: theme.primaryColor,

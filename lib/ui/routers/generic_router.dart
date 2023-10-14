@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:gami_acad/ui/views/home_screen.dart';
-import 'package:gami_acad/ui/views/login_screen.dart';
-import 'package:gami_acad/ui/views/mission_screen.dart';
 import 'package:gami_acad/ui/views/splash_screen.dart';
+import 'package:gami_acad/ui/views/login_screen.dart';
+import 'package:gami_acad/ui/views/home_screen.dart';
+import 'package:gami_acad/ui/views/mission_screen.dart';
+import 'package:gami_acad/ui/views/reward_screen.dart';
 
 class GenericRouter {
   static const String splashRoute = '/';
   static const String loginRoute = '/login';
   static const String homeRoute = '/home';
   static const String missionRoute = '/mission';
+  static const String rewardRoute = '/reward';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     WidgetBuilder builder;
@@ -26,6 +28,10 @@ class GenericRouter {
       case missionRoute:
         builder = (BuildContext _) =>
             MissionScreen(userId: settings.arguments as String);
+        break;
+      case rewardRoute:
+        builder = (BuildContext _) =>
+            RewardScreen(userId: settings.arguments as String);
         break;
       default:
         return MaterialPageRoute(

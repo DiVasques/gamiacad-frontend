@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:gami_acad/repository/models/base_mission.dart';
-import 'package:gami_acad/ui/controllers/mission_controller.dart';
+import 'package:gami_acad/repository/models/base_reward.dart';
+import 'package:gami_acad/ui/controllers/reward_controller.dart';
 import 'package:gami_acad/ui/utils/app_texts.dart';
 import 'package:gami_acad/ui/utils/int_extension.dart';
 import 'package:gami_acad/ui/widgets/default_list_tile.dart';
 import 'package:gami_acad/ui/widgets/default_separated_list_view.dart';
 import 'package:provider/provider.dart';
 
-class MissionListView extends StatelessWidget {
-  const MissionListView({Key? key}) : super(key: key);
+class RewardListView extends StatelessWidget {
+  const RewardListView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MissionController>(
-      builder: (context, missionController, _) {
-        List<BaseMission> missionsList = getMissionsList(missionController);
-        String title = getTitle(missionController);
+    return Consumer<RewardController>(
+      builder: (context, rewardController, _) {
+        List<BaseReward> rewardsList = getRewardsList(rewardController);
+        String title = getTitle(rewardController);
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -32,9 +32,9 @@ class MissionListView extends StatelessWidget {
             const Divider(),
             Expanded(
               child: RefreshIndicator(
-                onRefresh: () => missionController.getUserMissions(),
+                onRefresh: () => rewardController.getUserRewards(),
                 child: () {
-                  if (missionsList.isEmpty) {
+                  if (rewardsList.isEmpty) {
                     return CustomScrollView(
                       slivers: [
                         SliverFillRemaining(
@@ -47,7 +47,7 @@ class MissionListView extends StatelessWidget {
                                 color: Colors.black54,
                               ),
                               Text(
-                                  'Não há missões ${title.toLowerCase()} no momento.'),
+                                  'Não há recompensas ${title.toLowerCase()} no momento.'),
                             ],
                           ),
                         ),
@@ -55,14 +55,14 @@ class MissionListView extends StatelessWidget {
                     );
                   }
                   return DefaultSeparatedListView(
-                    itemCount: missionsList.length,
+                    itemCount: rewardsList.length,
                     itemBuilder: (context, index) {
-                      BaseMission mission = missionsList.elementAt(index);
+                      BaseReward reward = rewardsList.elementAt(index);
                       return DefaultListTile(
-                        title: '#${mission.number}',
-                        subTitle: mission.name,
-                        trailingTextTitle: 'Pontos:',
-                        trailingText: mission.points.toStringDecimal(),
+                        title: '#${reward.number}',
+                        subTitle: reward.name,
+                        trailingTextTitle: 'Preço:',
+                        trailingText: reward.price.toStringDecimal(),
                         onTap: () {},
                       );
                     },
@@ -76,27 +76,27 @@ class MissionListView extends StatelessWidget {
     );
   }
 
-  List<BaseMission> getMissionsList(MissionController missionController) {
-    switch (missionController.navigationIndex) {
+  List<BaseReward> getRewardsList(RewardController rewardController) {
+    switch (rewardController.navigationIndex) {
       case 0:
-        return missionController.userMissions.active;
+        return rewardController.userRewards.available;
       case 1:
-        return missionController.userMissions.participating;
+        return rewardController.userRewards.claimed;
       case 2:
-        return missionController.userMissions.completed;
+        return rewardController.userRewards.received;
       default:
-        return missionController.userMissions.active;
+        return rewardController.userRewards.available;
     }
   }
 
-  String getTitle(MissionController missionController) {
-    switch (missionController.navigationIndex) {
+  String getTitle(RewardController rewardController) {
+    switch (rewardController.navigationIndex) {
       case 0:
-        return AppTexts.missionActive;
+        return AppTexts.rewardAvailable;
       case 1:
-        return AppTexts.missionParticipating;
+        return AppTexts.rewardClaimed;
       case 2:
-        return AppTexts.missionCompleted;
+        return AppTexts.rewardReceived;
       default:
         return '';
     }

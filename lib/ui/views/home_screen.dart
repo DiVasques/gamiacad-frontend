@@ -66,6 +66,18 @@ class HomeScreen extends StatelessWidget {
                                 },
                                 icon: const Icon(Icons.grading_outlined),
                               ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).pushNamed(
+                                    GenericRouter.rewardRoute,
+                                    arguments: userId,
+                                  );
+                                },
+                                icon: const Icon(Icons.card_giftcard),
+                              ),
                             ],
                           ),
                         ),
