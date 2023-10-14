@@ -59,8 +59,8 @@ class RewardListView extends StatelessWidget {
                     itemBuilder: (context, index) {
                       BaseReward reward = rewardsList.elementAt(index);
                       return DefaultListTile(
-                        title: '#${reward.number}',
-                        subTitle: reward.name,
+                        title: reward.name,
+                        subTitle: '#${reward.number}',
                         trailingTextTitle: 'Preço:',
                         trailingText: reward.price.toStringDecimal(),
                         onTap: () {},

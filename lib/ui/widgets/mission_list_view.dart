@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gami_acad/repository/models/base_mission.dart';
 import 'package:gami_acad/ui/controllers/mission_controller.dart';
+import 'package:gami_acad/ui/routers/generic_router.dart';
 import 'package:gami_acad/ui/utils/app_texts.dart';
 import 'package:gami_acad/ui/utils/int_extension.dart';
 import 'package:gami_acad/ui/widgets/default_list_tile.dart';
@@ -59,11 +60,20 @@ class MissionListView extends StatelessWidget {
                     itemBuilder: (context, index) {
                       BaseMission mission = missionsList.elementAt(index);
                       return DefaultListTile(
-                        title: '#${mission.number}',
-                        subTitle: mission.name,
+                        title: mission.name,
+                        subTitle: '#${mission.number}',
                         trailingTextTitle: 'Pontos:',
                         trailingText: mission.points.toStringDecimal(),
-                        onTap: () {},
+                        onTap: () async {
+                          await Navigator.of(context).pushNamed(
+                            GenericRouter.missionDetailsRoute,
+                            arguments: {
+                              'userId': missionController.userId,
+                              'mission': mission
+                            },
+                          );
+                          missionController.getUserMissions();
+                        },
                       );
                     },
                   );
