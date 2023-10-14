@@ -5,4 +5,7 @@ class AppTexts {
   static const rewardAvailable = 'Disponíveis';
   static const rewardClaimed = 'Compradas';
   static const rewardReceived = 'Recebidas';
+  static const points = 'Pontos';
+  static const expirationDate = 'Disponível até';
+  static const details = 'Detalhes';
 }

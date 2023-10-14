@@ -58,11 +58,12 @@ class HomeScreen extends StatelessWidget {
                                 height: 10,
                               ),
                               IconButton(
-                                onPressed: () {
-                                  Navigator.of(context).pushNamed(
+                                onPressed: () async {
+                                  await Navigator.of(context).pushNamed(
                                     GenericRouter.missionRoute,
                                     arguments: userId,
                                   );
+                                  homeController.getUser();
                                 },
                                 icon: const Icon(Icons.grading_outlined),
                               ),
@@ -70,11 +71,12 @@ class HomeScreen extends StatelessWidget {
                                 height: 10,
                               ),
                               IconButton(
-                                onPressed: () {
-                                  Navigator.of(context).pushNamed(
+                                onPressed: () async {
+                                  await Navigator.of(context).pushNamed(
                                     GenericRouter.rewardRoute,
                                     arguments: userId,
                                   );
+                                  homeController.getUser();
                                 },
                                 icon: const Icon(Icons.card_giftcard),
                               ),
