@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gami_acad/repository/models/base_reward.dart';
 import 'package:gami_acad/ui/controllers/reward_controller.dart';
+import 'package:gami_acad/ui/routers/generic_router.dart';
 import 'package:gami_acad/ui/utils/app_texts.dart';
 import 'package:gami_acad/ui/utils/extensions/int_extension.dart';
 import 'package:gami_acad/ui/widgets/default_list_tile.dart';
@@ -63,7 +64,16 @@ class RewardListView extends StatelessWidget {
                         subTitle: '#${reward.number}',
                         trailingTextTitle: 'Preço:',
                         trailingText: reward.price.toStringDecimal(),
-                        onTap: () {},
+                        onTap: () async {
+                          await Navigator.of(context).pushNamed(
+                            GenericRouter.rewardDetailsRoute,
+                            arguments: {
+                              'userId': rewardController.userId,
+                              'reward': reward
+                            },
+                          );
+                          rewardController.getUserRewards();
+                        },
                       );
                     },
                   );
