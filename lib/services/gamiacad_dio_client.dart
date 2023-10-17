@@ -1,13 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:gami_acad/services/models/storage_keys.dart';
 import 'package:gami_acad/services/secure_storage.dart';
+import 'package:gami_acad/utils/env.dart';
 
 class GamiAcadDioClient {
   static final GamiAcadDioClient _instance = GamiAcadDioClient._internal();
   final SecureStorage _secureStorage = SecureStorage();
 
-  static const _baseUrl = 'http://172.31.58.135:8000/api';
-  static const _clientId = '16785e25-688b-4e31-88bb-95b6ed588347';
+  static final _baseUrl = Env.gamiacadApiUrl;
+  static final _clientId = Env.clientId;
 
   factory GamiAcadDioClient() {
     return _instance;
