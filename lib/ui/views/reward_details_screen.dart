@@ -1,37 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:gami_acad/repository/models/base_mission.dart';
-import 'package:gami_acad/ui/controllers/mission_details_controller.dart';
+import 'package:gami_acad/repository/models/base_reward.dart';
+import 'package:gami_acad/ui/controllers/reward_details_controller.dart';
 import 'package:gami_acad/ui/utils/app_texts.dart';
-import 'package:gami_acad/ui/utils/extensions/date_extension.dart';
 import 'package:gami_acad/ui/utils/extensions/int_extension.dart';
 import 'package:gami_acad/ui/utils/view_state.dart';
 import 'package:gami_acad/ui/widgets/default_error_screen.dart';
 import 'package:gami_acad/ui/widgets/default_loading_screen.dart';
 import 'package:provider/provider.dart';
 
-class MissionDetailsScreen extends StatelessWidget {
+class RewardDetailsScreen extends StatelessWidget {
   final String? userId;
-  final BaseMission? mission;
-  const MissionDetailsScreen({Key? key, this.userId, this.mission})
+  final BaseReward? reward;
+  const RewardDetailsScreen({Key? key, this.userId, this.reward})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) =>
-          MissionDetailsController(userId: userId!, mission: mission!),
-      child: Consumer<MissionDetailsController>(
-        builder: (context, missionDetailsController, _) {
+      create: (_) => RewardDetailsController(userId: userId!, reward: reward!),
+      child: Consumer<RewardDetailsController>(
+        builder: (context, rewardDetailsController, _) {
           return Scaffold(
             appBar: AppBar(),
             backgroundColor: Colors.white,
             body: () {
-              switch (missionDetailsController.state) {
+              switch (rewardDetailsController.state) {
                 case ViewState.busy:
                   return const DefaultLoadingScreen();
                 case ViewState.error:
                   return DefaultErrorScreen(
-                    message: missionDetailsController.errorMessage,
+                    message: rewardDetailsController.errorMessage,
                     onPressed: () {},
                   );
                 case ViewState.idle:
@@ -47,14 +45,14 @@ class MissionDetailsScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                missionDetailsController.mission.name,
+                                rewardDetailsController.reward.name,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
                                 ),
                               ),
                               Text(
-                                '#${missionDetailsController.mission.number}',
+                                '#${rewardDetailsController.reward.number}',
                                 textAlign: TextAlign.justify,
                               )
                             ],
@@ -73,7 +71,7 @@ class MissionDetailsScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               const Text(
-                                '${AppTexts.points}:',
+                                '${AppTexts.price}:',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -82,14 +80,14 @@ class MissionDetailsScreen extends StatelessWidget {
                                 height: 5,
                               ),
                               Text(
-                                missionDetailsController.mission.points
+                                rewardDetailsController.reward.price
                                     .toStringDecimal(),
                               ),
                               const SizedBox(
                                 height: 10,
                               ),
                               const Text(
-                                '${AppTexts.expirationDate}:',
+                                '${AppTexts.rewardAvailableQuantity}:',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -98,8 +96,33 @@ class MissionDetailsScreen extends StatelessWidget {
                                 height: 5,
                               ),
                               Text(
-                                '${missionDetailsController.mission.expirationDate.toLocalDateExtendedString()} ${AppTexts.at} ${missionDetailsController.mission.expirationDate.toLocalTimeString()}h',
+                                rewardDetailsController.reward.availability
+                                    .toString(),
                               ),
+                              ...?() {
+                                if ((rewardDetailsController.reward.count ??
+                                        0) >
+                                    0) {
+                                  return <Widget>[
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    const Text(
+                                      '${AppTexts.rewardAlreadyClaimed}:',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      rewardDetailsController.reward.count
+                                          .toString(),
+                                    ),
+                                  ];
+                                }
+                              }(),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -113,7 +136,7 @@ class MissionDetailsScreen extends StatelessWidget {
                                 height: 5,
                               ),
                               Text(
-                                missionDetailsController.mission.description,
+                                rewardDetailsController.reward.description,
                                 textAlign: TextAlign.justify,
                               )
                             ],
