@@ -37,6 +37,8 @@ class GenericRouter {
         builder = (BuildContext _) => MissionDetailsScreen(
               userId: (settings.arguments as Map<String, dynamic>)['userId'],
               mission: (settings.arguments as Map<String, dynamic>)['mission'],
+              canSignOn:
+                  (settings.arguments as Map<String, dynamic>)['canSignOn'],
             );
         break;
       case rewardDetailsRoute:

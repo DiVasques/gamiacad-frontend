@@ -1,30 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gami_acad/repository/models/base_mission.dart';
 import 'package:gami_acad/ui/controllers/mission_details_controller.dart';
+import 'package:gami_acad/ui/routers/generic_router.dart';
 import 'package:gami_acad/ui/utils/app_texts.dart';
 import 'package:gami_acad/ui/utils/extensions/date_extension.dart';
 import 'package:gami_acad/ui/utils/extensions/int_extension.dart';
 import 'package:gami_acad/ui/utils/view_state.dart';
 import 'package:gami_acad/ui/widgets/default_error_screen.dart';
 import 'package:gami_acad/ui/widgets/default_loading_screen.dart';
+import 'package:gami_acad/ui/widgets/default_action_dialog.dart';
 import 'package:provider/provider.dart';
 
 class MissionDetailsScreen extends StatelessWidget {
-  final String? userId;
-  final BaseMission? mission;
-  const MissionDetailsScreen({Key? key, this.userId, this.mission})
+  final String userId;
+  final BaseMission mission;
+  final bool canSignOn;
+  const MissionDetailsScreen(
+      {Key? key,
+      required this.userId,
+      required this.mission,
+      required this.canSignOn})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) =>
-          MissionDetailsController(userId: userId!, mission: mission!),
+      create: (_) => MissionDetailsController(userId: userId, mission: mission),
       child: Consumer<MissionDetailsController>(
         builder: (context, missionDetailsController, _) {
           return Scaffold(
             appBar: AppBar(),
             backgroundColor: Colors.white,
+            floatingActionButton: canSignOn &&
+                    missionDetailsController.state == ViewState.idle
+                ? FloatingActionButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => DefaultActionDialog(
+                          titleText: AppTexts.confirmation,
+                          actionText: AppTexts.yes,
+                          actionMethod:
+                              missionDetailsController.subscribeOnMission(),
+                          routeToCallback: GenericRouter.missionRoute,
+                          contentText: AppTexts.missionSignOnConfirmation,
+                        ),
+                      );
+                    },
+                    tooltip: AppTexts.missionSignOn,
+                    child:
+                        const FaIcon(FontAwesomeIcons.fileSignature, size: 20),
+                  )
+                : null,
             body: () {
               switch (missionDetailsController.state) {
                 case ViewState.busy:

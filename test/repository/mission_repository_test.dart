@@ -20,6 +20,7 @@ void main() {
     late MockGamiAcadDioClient gamiAcadDioClient;
 
     String userId = 'userId';
+    String missionId = 'missionId';
     BaseMission baseMission = BaseMission(
       id: 'id',
       name: 'name',
@@ -162,6 +163,118 @@ void main() {
         try {
           await missionRepository.getUserMissions(
             userId: userId,
+          );
+        } catch (e) {
+          expect(e.runtimeType, ServiceUnavailableException);
+        }
+      });
+    });
+
+    group('subscribeOnMission', () {
+      test('should return success subscribeOnMission', () async {
+        // Arrange
+        Response response = Response(
+          requestOptions: RequestOptions(),
+          statusCode: 204,
+          statusMessage: 'Success',
+        );
+        when(gamiAcadDioClient.put(
+          path: '/mission/$missionId/$userId',
+        )).thenAnswer((_) async => response);
+
+        // Act
+        final result = await missionRepository.subscribeOnMission(
+          userId: userId,
+          missionId: missionId,
+        );
+
+        // Assert
+        expect(result.status, true);
+        expect(result.message, 'Success');
+      });
+
+      test('should return unauthorized when 401', () async {
+        // Arrange
+        when(gamiAcadDioClient.put(
+          path: '/mission/$missionId/$userId',
+        )).thenAnswer(
+          (_) async => throw DioException(
+            requestOptions: RequestOptions(),
+            response:
+                Response(requestOptions: RequestOptions(), statusCode: 401),
+          ),
+        );
+
+        // Act and Assert
+        try {
+          await missionRepository.subscribeOnMission(
+            userId: userId,
+            missionId: missionId,
+          );
+        } catch (e) {
+          expect(e.runtimeType, UnauthorizedException);
+        }
+      });
+
+      test('should return forbidden', () async {
+        // Arrange
+        when(gamiAcadDioClient.put(
+          path: '/mission/$missionId/$userId',
+        )).thenAnswer(
+          (_) async => throw DioException(
+            requestOptions: RequestOptions(),
+            response:
+                Response(requestOptions: RequestOptions(), statusCode: 403),
+          ),
+        );
+
+        // Act and Assert
+        try {
+          await missionRepository.subscribeOnMission(
+            userId: userId,
+            missionId: missionId,
+          );
+        } catch (e) {
+          expect(e.runtimeType, ForbiddenException);
+        }
+      });
+
+      test('should return service unavailable', () async {
+        // Arrange
+        when(gamiAcadDioClient.put(
+          path: '/mission/$missionId/$userId',
+        )).thenAnswer(
+          (_) async => throw DioException(
+            requestOptions: RequestOptions(),
+            response:
+                Response(requestOptions: RequestOptions(), statusCode: 404),
+          ),
+        );
+
+        // Act and Assert
+        try {
+          await missionRepository.subscribeOnMission(
+            userId: userId,
+            missionId: missionId,
+          );
+        } catch (e) {
+          expect(e.runtimeType, ServiceUnavailableException);
+        }
+      });
+
+      test('should return service unavailable when unknown error', () async {
+        // Arrange
+        when(gamiAcadDioClient.put(
+          path: '/mission/$missionId/$userId',
+        )).thenAnswer(
+          (_) async => throw Exception(),
+        );
+
+        // Act and Assert
+        try {
+          await missionRepository.subscribeOnMission(
+            userId: userId,
+            missionId: missionId,
           );
         } catch (e) {
           expect(e.runtimeType, ServiceUnavailableException);

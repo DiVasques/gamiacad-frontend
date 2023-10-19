@@ -72,10 +72,22 @@ class GamiAcadDioClient {
   Future<Response> get({
     required String path,
     Map<String, String>? headers,
-    Object? body,
     Map<String, dynamic>? query,
   }) async {
     return await _dio.get(path, queryParameters: query);
+  }
+
+  Future<Response> put({
+    required String path,
+    Map<String, String>? headers,
+    Object? body,
+    Map<String, dynamic>? query,
+  }) async {
+    return await _dio.put(
+      path,
+      queryParameters: query,
+      data: body,
+    );
   }
 
   Future<void> _refreshToken() async {
