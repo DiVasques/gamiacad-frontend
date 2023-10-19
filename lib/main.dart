@@ -45,6 +45,10 @@ class MainApp extends StatelessWidget {
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: primaryColor,
+          elevation: 2,
+        ),
       ),
       onGenerateRoute: GenericRouter.generateRoute,
       initialRoute: GenericRouter.splashRoute,

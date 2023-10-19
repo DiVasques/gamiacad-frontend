@@ -45,4 +45,33 @@ class MissionRepository {
       throw ServiceUnavailableException();
     }
   }
+
+  Future<Result> subscribeOnMission(
+      {required String userId, required String missionId}) async {
+    try {
+      var response = await _gamiAcadDioClient.put(
+        path: '/mission/$missionId/$userId',
+      );
+      var result = Result(
+        status: false,
+        code: response.statusCode,
+        message: response.statusMessage,
+      );
+      if (response.statusCode == 204) {
+        result.status = true;
+        return result;
+      }
+      return result;
+    } on DioException catch (error) {
+      if (error.response?.statusCode == 401) {
+        throw UnauthorizedException();
+      }
+      if (error.response?.statusCode == 403) {
+        throw ForbiddenException();
+      }
+      throw ServiceUnavailableException();
+    } catch (e) {
+      throw ServiceUnavailableException();
+    }
+  }
 }

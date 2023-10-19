@@ -69,7 +69,8 @@ class MissionListView extends StatelessWidget {
                             GenericRouter.missionDetailsRoute,
                             arguments: {
                               'userId': missionController.userId,
-                              'mission': mission
+                              'mission': mission,
+                              'canSignOn': canSignOn(missionController)
                             },
                           );
                           missionController.getUserMissions();
@@ -109,6 +110,17 @@ class MissionListView extends StatelessWidget {
         return AppTexts.missionCompleted;
       default:
         return '';
+    }
+  }
+
+  bool canSignOn(MissionController missionController) {
+    switch (missionController.navigationIndex) {
+      case 0:
+        return true;
+      case 1:
+      case 2:
+      default:
+        return false;
     }
   }
 }
