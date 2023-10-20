@@ -76,5 +76,48 @@ void main() {
         expect(rewardDetailsController.state, ViewState.idle);
       });
     });
+
+    group('cancelClaim', () {
+      test('should cancel reward claim', () async {
+        // Arrange
+        when(rewardRepository.cancelClaim(
+          userId: userId,
+          rewardId: reward.id,
+        )).thenAnswer((_) async => Result(status: true, message: 'Success'));
+        rewardDetailsController = RewardDetailsController(
+          userId: userId,
+          reward: reward,
+          rewardRepository: rewardRepository,
+        );
+
+        // Act
+        var result = await rewardDetailsController.cancelClaim();
+
+        // Assert
+        expect(result, null);
+        expect(rewardDetailsController.state, ViewState.idle);
+      });
+
+      test('should return error message when failed to cancel reward claim',
+          () async {
+        // Arrange
+        when(rewardRepository.cancelClaim(
+          userId: userId,
+          rewardId: reward.id,
+        )).thenAnswer((_) async => Result(status: false, message: 'Error'));
+        rewardDetailsController = RewardDetailsController(
+          userId: userId,
+          reward: reward,
+          rewardRepository: rewardRepository,
+        );
+
+        // Act
+        var result = await rewardDetailsController.cancelClaim();
+
+        // Assert
+        expect(result, 'Error');
+        expect(rewardDetailsController.state, ViewState.idle);
+      });
+    });
   });
 }

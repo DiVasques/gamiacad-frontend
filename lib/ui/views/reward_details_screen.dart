@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gami_acad/repository/models/base_reward.dart';
 import 'package:gami_acad/ui/controllers/reward_details_controller.dart';
 import 'package:gami_acad/ui/routers/generic_router.dart';
+import 'package:gami_acad/ui/utils/app_colors.dart';
 import 'package:gami_acad/ui/utils/app_texts.dart';
 import 'package:gami_acad/ui/utils/extensions/int_extension.dart';
 import 'package:gami_acad/ui/utils/view_state.dart';
@@ -14,11 +15,13 @@ class RewardDetailsScreen extends StatelessWidget {
   final String userId;
   final BaseReward reward;
   final bool canClaim;
+  final bool canCancelClaim;
   const RewardDetailsScreen({
     Key? key,
     required this.userId,
     required this.reward,
     required this.canClaim,
+    required this.canCancelClaim,
   }) : super(key: key);
 
   @override
@@ -30,25 +33,7 @@ class RewardDetailsScreen extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(),
             floatingActionButton:
-                canClaim && rewardDetailsController.state == ViewState.idle
-                    ? FloatingActionButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (context) => DefaultActionDialog(
-                              titleText: AppTexts.confirmation,
-                              actionText: AppTexts.yes,
-                              actionMethod: rewardDetailsController.claimReward,
-                              routeToCallback: GenericRouter.rewardRoute,
-                              contentText: AppTexts.rewardClaimConfirmation,
-                            ),
-                          );
-                        },
-                        tooltip: AppTexts.rewardClaim,
-                        child: const Icon(Icons.shopping_cart),
-                      )
-                    : null,
+                buildFloatingActionButton(rewardDetailsController, context),
             body: () {
               switch (rewardDetailsController.state) {
                 case ViewState.busy:
@@ -177,5 +162,54 @@ class RewardDetailsScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Widget? buildFloatingActionButton(
+    RewardDetailsController rewardDetailsController,
+    BuildContext context,
+  ) {
+    if (rewardDetailsController.state != ViewState.idle) {
+      return null;
+    }
+    if (canClaim) {
+      return FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => DefaultActionDialog(
+              titleText: AppTexts.confirmation,
+              actionText: AppTexts.yes,
+              actionMethod: rewardDetailsController.claimReward,
+              routeToCallback: GenericRouter.rewardRoute,
+              contentText: AppTexts.rewardClaimConfirmation,
+            ),
+          );
+        },
+        tooltip: AppTexts.rewardClaim,
+        child: const Icon(Icons.shopping_cart),
+      );
+    }
+    if (canCancelClaim) {
+      return FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => DefaultActionDialog(
+              titleText: AppTexts.confirmation,
+              actionText: AppTexts.yes,
+              actionMethod: rewardDetailsController.cancelClaim,
+              routeToCallback: GenericRouter.rewardRoute,
+              contentText: AppTexts.rewardCancelClaimConfirmation,
+            ),
+          );
+        },
+        tooltip: AppTexts.rewardCancelClaim,
+        backgroundColor: AppColors.cancel,
+        child: const Icon(Icons.remove_shopping_cart),
+      );
+    }
+    return null;
   }
 }

@@ -47,6 +47,8 @@ class GenericRouter {
               reward: (settings.arguments as Map<String, dynamic>)['reward'],
               canClaim:
                   (settings.arguments as Map<String, dynamic>)['canClaim'],
+              canCancelClaim: (settings.arguments
+                  as Map<String, dynamic>)['canCancelClaim'],
             );
         break;
       case rewardRoute:

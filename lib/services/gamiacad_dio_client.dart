@@ -77,6 +77,14 @@ class GamiAcadDioClient {
     return await _dio.get(path, queryParameters: query);
   }
 
+  Future<Response> delete({
+    required String path,
+    Map<String, String>? headers,
+    Map<String, dynamic>? query,
+  }) async {
+    return await _dio.delete(path, queryParameters: query);
+  }
+
   Future<Response> put({
     required String path,
     Map<String, String>? headers,
