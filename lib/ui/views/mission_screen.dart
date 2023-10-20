@@ -40,7 +40,6 @@ class MissionScreen extends StatelessWidget {
               ],
             ),
             appBar: AppBar(),
-            backgroundColor: Colors.white,
             body: () {
               switch (missionController.state) {
                 case ViewState.busy:

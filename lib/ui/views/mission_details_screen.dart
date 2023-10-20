@@ -16,12 +16,12 @@ class MissionDetailsScreen extends StatelessWidget {
   final String userId;
   final BaseMission mission;
   final bool canSignOn;
-  const MissionDetailsScreen(
-      {Key? key,
-      required this.userId,
-      required this.mission,
-      required this.canSignOn})
-      : super(key: key);
+  const MissionDetailsScreen({
+    Key? key,
+    required this.userId,
+    required this.mission,
+    required this.canSignOn,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,6 @@ class MissionDetailsScreen extends StatelessWidget {
         builder: (context, missionDetailsController, _) {
           return Scaffold(
             appBar: AppBar(),
-            backgroundColor: Colors.white,
             floatingActionButton: canSignOn &&
                     missionDetailsController.state == ViewState.idle
                 ? FloatingActionButton(
@@ -43,7 +42,7 @@ class MissionDetailsScreen extends StatelessWidget {
                           titleText: AppTexts.confirmation,
                           actionText: AppTexts.yes,
                           actionMethod:
-                              missionDetailsController.subscribeOnMission(),
+                              missionDetailsController.subscribeOnMission,
                           routeToCallback: GenericRouter.missionRoute,
                           contentText: AppTexts.missionSignOnConfirmation,
                         ),
