@@ -281,5 +281,117 @@ void main() {
         }
       });
     });
+
+    group('cancelClaim', () {
+      test('should return success cancelClaim', () async {
+        // Arrange
+        Response response = Response(
+          requestOptions: RequestOptions(),
+          statusCode: 204,
+          statusMessage: 'Success',
+        );
+        when(gamiAcadDioClient.delete(
+          path: '/reward/$rewardId/$userId',
+        )).thenAnswer((_) async => response);
+
+        // Act
+        final result = await rewardRepository.cancelClaim(
+          userId: userId,
+          rewardId: rewardId,
+        );
+
+        // Assert
+        expect(result.status, true);
+        expect(result.message, 'Success');
+      });
+
+      test('should return unauthorized when 401', () async {
+        // Arrange
+        when(gamiAcadDioClient.delete(
+          path: '/reward/$rewardId/$userId',
+        )).thenAnswer(
+          (_) async => throw DioException(
+            requestOptions: RequestOptions(),
+            response:
+                Response(requestOptions: RequestOptions(), statusCode: 401),
+          ),
+        );
+
+        // Act and Assert
+        try {
+          await rewardRepository.cancelClaim(
+            userId: userId,
+            rewardId: rewardId,
+          );
+        } catch (e) {
+          expect(e.runtimeType, UnauthorizedException);
+        }
+      });
+
+      test('should return forbidden', () async {
+        // Arrange
+        when(gamiAcadDioClient.delete(
+          path: '/reward/$rewardId/$userId',
+        )).thenAnswer(
+          (_) async => throw DioException(
+            requestOptions: RequestOptions(),
+            response:
+                Response(requestOptions: RequestOptions(), statusCode: 403),
+          ),
+        );
+
+        // Act and Assert
+        try {
+          await rewardRepository.cancelClaim(
+            userId: userId,
+            rewardId: rewardId,
+          );
+        } catch (e) {
+          expect(e.runtimeType, ForbiddenException);
+        }
+      });
+
+      test('should return service unavailable', () async {
+        // Arrange
+        when(gamiAcadDioClient.delete(
+          path: '/reward/$rewardId/$userId',
+        )).thenAnswer(
+          (_) async => throw DioException(
+            requestOptions: RequestOptions(),
+            response:
+                Response(requestOptions: RequestOptions(), statusCode: 404),
+          ),
+        );
+
+        // Act and Assert
+        try {
+          await rewardRepository.cancelClaim(
+            userId: userId,
+            rewardId: rewardId,
+          );
+        } catch (e) {
+          expect(e.runtimeType, ServiceUnavailableException);
+        }
+      });
+
+      test('should return service unavailable when unknown error', () async {
+        // Arrange
+        when(gamiAcadDioClient.delete(
+          path: '/reward/$rewardId/$userId',
+        )).thenAnswer(
+          (_) async => throw Exception(),
+        );
+
+        // Act and Assert
+        try {
+          await rewardRepository.cancelClaim(
+            userId: userId,
+            rewardId: rewardId,
+          );
+        } catch (e) {
+          expect(e.runtimeType, ServiceUnavailableException);
+        }
+      });
+    });
   });
 }

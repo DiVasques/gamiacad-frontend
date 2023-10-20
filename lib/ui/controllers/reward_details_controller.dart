@@ -38,4 +38,24 @@ class RewardDetailsController extends BaseController {
       return ErrorMessages.unknownError;
     }
   }
+
+  Future<String?> cancelClaim() async {
+    try {
+      Result result = await _rewardRepository.cancelClaim(
+        userId: userId,
+        rewardId: reward.id,
+      );
+
+      if (result.status) {
+        return null;
+      }
+      return result.message ?? '';
+    } on UnauthorizedException {
+      rethrow;
+    } on ServiceUnavailableException catch (e) {
+      return e.toString();
+    } catch (e) {
+      return ErrorMessages.unknownError;
+    }
+  }
 }

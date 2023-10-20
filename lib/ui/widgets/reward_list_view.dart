@@ -70,7 +70,8 @@ class RewardListView extends StatelessWidget {
                             arguments: {
                               'userId': rewardController.userId,
                               'reward': reward,
-                              'canClaim': canClaim(rewardController)
+                              'canClaim': canClaim(rewardController),
+                              'canCancelClaim': canCancelClaim(rewardController)
                             },
                           );
                           rewardController.getUserRewards();
@@ -118,6 +119,17 @@ class RewardListView extends StatelessWidget {
       case 0:
         return true;
       case 1:
+      case 2:
+      default:
+        return false;
+    }
+  }
+
+  bool canCancelClaim(RewardController rewardController) {
+    switch (rewardController.navigationIndex) {
+      case 1:
+        return true;
+      case 0:
       case 2:
       default:
         return false;

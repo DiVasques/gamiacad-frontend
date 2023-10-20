@@ -17,6 +17,9 @@ class AppTexts {
   static const rewardAlreadyClaimed = 'Já resgatadas';
   static const rewardAvailable = 'Disponíveis';
   static const rewardAvailableQuantity = 'Quantidade Disponível';
+  static const rewardCancelClaim = 'Cancelar Resgate';
+  static const rewardCancelClaimConfirmation =
+      'Deseja cancelar o resgate dessa recompensa?';
   static const rewardClaim = 'Resgatar';
   static const rewardClaimConfirmation = 'Deseja resgatar essa recompensa?';
   static const rewardClaimed = 'Resgatadas';

@@ -108,4 +108,30 @@ class MockRewardRepository extends _i1.Mock implements _i4.RewardRepository {
           ),
         )),
       ) as _i5.Future<_i3.Result>);
+  @override
+  _i5.Future<_i3.Result> cancelClaim({
+    required String? userId,
+    required String? rewardId,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #cancelClaim,
+          [],
+          {
+            #userId: userId,
+            #rewardId: rewardId,
+          },
+        ),
+        returnValue: _i5.Future<_i3.Result>.value(_FakeResult_1(
+          this,
+          Invocation.method(
+            #cancelClaim,
+            [],
+            {
+              #userId: userId,
+              #rewardId: rewardId,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.Result>);
 }
