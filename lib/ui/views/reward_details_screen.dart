@@ -183,6 +183,7 @@ class RewardDetailsScreen extends StatelessWidget {
               actionMethod: rewardDetailsController.claimReward,
               routeToCallback: GenericRouter.rewardRoute,
               contentText: AppTexts.rewardClaimConfirmation,
+              successText: AppTexts.rewardClaimSuccess,
             ),
           );
         },
@@ -202,6 +203,7 @@ class RewardDetailsScreen extends StatelessWidget {
               actionMethod: rewardDetailsController.cancelClaim,
               routeToCallback: GenericRouter.rewardRoute,
               contentText: AppTexts.rewardCancelClaimConfirmation,
+              successText: AppTexts.rewardCancelClaimSuccess,
             ),
           );
         },
