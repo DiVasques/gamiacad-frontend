@@ -14,14 +14,17 @@ class AppTexts {
   static const missionParticipating = 'Inscritas';
   static const missionSignOn = 'Se Inscrever';
   static const missionSignOnConfirmation = 'Deseja se inscrever na missão?';
+  static const missionSignOnSuccess = 'Inscrição feita com sucesso!';
   static const rewardAlreadyClaimed = 'Já resgatadas';
   static const rewardAvailable = 'Disponíveis';
   static const rewardAvailableQuantity = 'Quantidade Disponível';
   static const rewardCancelClaim = 'Cancelar Resgate';
   static const rewardCancelClaimConfirmation =
       'Deseja cancelar o resgate dessa recompensa?';
+  static const rewardCancelClaimSuccess = 'Resgate cancelado com sucesso!';
   static const rewardClaim = 'Resgatar';
   static const rewardClaimConfirmation = 'Deseja resgatar essa recompensa?';
+  static const rewardClaimSuccess = 'Recompensa resgatada com sucesso!';
   static const rewardClaimed = 'Resgatadas';
   static const rewardReceived = 'Recebidas';
 }

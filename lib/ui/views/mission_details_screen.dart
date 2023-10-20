@@ -31,28 +31,8 @@ class MissionDetailsScreen extends StatelessWidget {
         builder: (context, missionDetailsController, _) {
           return Scaffold(
             appBar: AppBar(),
-            floatingActionButton: canSignOn &&
-                    missionDetailsController.state == ViewState.idle
-                ? FloatingActionButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) => DefaultActionDialog(
-                          titleText: AppTexts.confirmation,
-                          actionText: AppTexts.yes,
-                          actionMethod:
-                              missionDetailsController.subscribeOnMission,
-                          routeToCallback: GenericRouter.missionRoute,
-                          contentText: AppTexts.missionSignOnConfirmation,
-                        ),
-                      );
-                    },
-                    tooltip: AppTexts.missionSignOn,
-                    child:
-                        const FaIcon(FontAwesomeIcons.fileSignature, size: 20),
-                  )
-                : null,
+            floatingActionButton:
+                buildFloatingActionButton(missionDetailsController, context),
             body: () {
               switch (missionDetailsController.state) {
                 case ViewState.busy:
@@ -156,5 +136,35 @@ class MissionDetailsScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Widget? buildFloatingActionButton(
+    MissionDetailsController missionDetailsController,
+    BuildContext context,
+  ) {
+    if (missionDetailsController.state != ViewState.idle) {
+      return null;
+    }
+    if (canSignOn) {
+      return FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => DefaultActionDialog(
+              titleText: AppTexts.confirmation,
+              actionText: AppTexts.yes,
+              actionMethod: missionDetailsController.subscribeOnMission,
+              routeToCallback: GenericRouter.missionRoute,
+              contentText: AppTexts.missionSignOnConfirmation,
+              successText: AppTexts.missionSignOnSuccess,
+            ),
+          );
+        },
+        tooltip: AppTexts.missionSignOn,
+        child: const FaIcon(FontAwesomeIcons.fileSignature, size: 20),
+      );
+    }
+    return null;
   }
 }

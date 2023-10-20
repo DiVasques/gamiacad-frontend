@@ -10,6 +10,7 @@ class DefaultActionDialog extends StatelessWidget {
   final Future<String?> Function() actionMethod;
   final String routeToCallback;
   final String? contentText;
+  final String? successText;
 
   const DefaultActionDialog({
     super.key,
@@ -18,6 +19,7 @@ class DefaultActionDialog extends StatelessWidget {
     required this.actionMethod,
     required this.routeToCallback,
     this.contentText,
+    this.successText,
   });
 
   @override
@@ -61,12 +63,21 @@ class DefaultActionDialog extends StatelessWidget {
                         child: Text(actionText),
                         onPressed: () {
                           dialogController.takeAction().then((result) {
-                            if (result) {
-                              Navigator.of(context).popUntil(
-                                (route) =>
-                                    route.settings.name == routeToCallback,
+                            if (!result) {
+                              return;
+                            }
+                            if (successText != null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  behavior: SnackBarBehavior.floating,
+                                  duration: const Duration(seconds: 2),
+                                  content: Text('$successText'),
+                                ),
                               );
                             }
+                            Navigator.of(context).popUntil(
+                              (route) => route.settings.name == routeToCallback,
+                            );
                           });
                         },
                       ),
