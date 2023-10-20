@@ -1,28 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:gami_acad/repository/models/base_reward.dart';
 import 'package:gami_acad/ui/controllers/reward_details_controller.dart';
+import 'package:gami_acad/ui/routers/generic_router.dart';
 import 'package:gami_acad/ui/utils/app_texts.dart';
 import 'package:gami_acad/ui/utils/extensions/int_extension.dart';
 import 'package:gami_acad/ui/utils/view_state.dart';
+import 'package:gami_acad/ui/widgets/default_action_dialog.dart';
 import 'package:gami_acad/ui/widgets/default_error_screen.dart';
 import 'package:gami_acad/ui/widgets/default_loading_screen.dart';
 import 'package:provider/provider.dart';
 
 class RewardDetailsScreen extends StatelessWidget {
-  final String? userId;
-  final BaseReward? reward;
-  const RewardDetailsScreen({Key? key, this.userId, this.reward})
-      : super(key: key);
+  final String userId;
+  final BaseReward reward;
+  final bool canClaim;
+  const RewardDetailsScreen({
+    Key? key,
+    required this.userId,
+    required this.reward,
+    required this.canClaim,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => RewardDetailsController(userId: userId!, reward: reward!),
+      create: (_) => RewardDetailsController(userId: userId, reward: reward),
       child: Consumer<RewardDetailsController>(
         builder: (context, rewardDetailsController, _) {
           return Scaffold(
             appBar: AppBar(),
-            backgroundColor: Colors.white,
+            floatingActionButton:
+                canClaim && rewardDetailsController.state == ViewState.idle
+                    ? FloatingActionButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => DefaultActionDialog(
+                              titleText: AppTexts.confirmation,
+                              actionText: AppTexts.yes,
+                              actionMethod: rewardDetailsController.claimReward,
+                              routeToCallback: GenericRouter.rewardRoute,
+                              contentText: AppTexts.rewardClaimConfirmation,
+                            ),
+                          );
+                        },
+                        tooltip: AppTexts.rewardClaim,
+                        child: const Icon(Icons.shopping_cart),
+                      )
+                    : null,
             body: () {
               switch (rewardDetailsController.state) {
                 case ViewState.busy:

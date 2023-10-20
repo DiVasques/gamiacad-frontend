@@ -69,7 +69,8 @@ class RewardListView extends StatelessWidget {
                             GenericRouter.rewardDetailsRoute,
                             arguments: {
                               'userId': rewardController.userId,
-                              'reward': reward
+                              'reward': reward,
+                              'canClaim': canClaim(rewardController)
                             },
                           );
                           rewardController.getUserRewards();
@@ -109,6 +110,17 @@ class RewardListView extends StatelessWidget {
         return AppTexts.rewardReceived;
       default:
         return '';
+    }
+  }
+
+  bool canClaim(RewardController rewardController) {
+    switch (rewardController.navigationIndex) {
+      case 0:
+        return true;
+      case 1:
+      case 2:
+      default:
+        return false;
     }
   }
 }

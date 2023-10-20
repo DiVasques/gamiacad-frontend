@@ -40,7 +40,6 @@ class RewardScreen extends StatelessWidget {
               ],
             ),
             appBar: AppBar(),
-            backgroundColor: Colors.white,
             body: () {
               switch (rewardController.state) {
                 case ViewState.busy:

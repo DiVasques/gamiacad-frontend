@@ -45,6 +45,8 @@ class GenericRouter {
         builder = (BuildContext _) => RewardDetailsScreen(
               userId: (settings.arguments as Map<String, dynamic>)['userId'],
               reward: (settings.arguments as Map<String, dynamic>)['reward'],
+              canClaim:
+                  (settings.arguments as Map<String, dynamic>)['canClaim'],
             );
         break;
       case rewardRoute:

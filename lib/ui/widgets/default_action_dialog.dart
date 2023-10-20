@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 class DefaultActionDialog extends StatelessWidget {
   final String titleText;
   final String actionText;
-  final Future<String?> actionMethod;
+  final Future<String?> Function() actionMethod;
   final String routeToCallback;
   final String? contentText;
 

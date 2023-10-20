@@ -11,7 +11,10 @@ void main() {
     group('takeAction', () {
       test('should complete when no error message', () async {
         // Arrange
-        Future<String?> actionMethod = Future(() => null);
+        actionMethod() async {
+          return null;
+        }
+
         dialogController = DefaultDialogController(
           actionMethod: actionMethod,
         );
@@ -28,7 +31,10 @@ void main() {
       test('should give error when receives error message', () async {
         // Arrange
         String errorMessage = 'errorMessage';
-        Future<String?> actionMethod = Future(() => errorMessage);
+        actionMethod() async {
+          return errorMessage;
+        }
+
         dialogController = DefaultDialogController(
           actionMethod: actionMethod,
         );

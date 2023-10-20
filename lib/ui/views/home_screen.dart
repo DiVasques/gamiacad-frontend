@@ -33,7 +33,6 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            backgroundColor: Colors.white,
             body: () {
               switch (homeController.state) {
                 case ViewState.busy:

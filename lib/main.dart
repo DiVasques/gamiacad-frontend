@@ -32,23 +32,24 @@ class MainApp extends StatelessWidget {
           backgroundColor: Colors.transparent,
           centerTitle: true,
         ),
-        dividerTheme: const DividerThemeData(
-          space: 2,
-          color: Colors.black54,
-        ),
-        fontFamily: 'Montserrat',
-        primaryColor: primaryColor,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: primaryColor,
-        ),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: Colors.transparent,
           elevation: 0,
+        ),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: primaryColor,
+        ),
+        dividerTheme: const DividerThemeData(
+          space: 2,
+          color: Colors.black54,
         ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: primaryColor,
           elevation: 2,
         ),
+        fontFamily: 'Montserrat',
+        primaryColor: primaryColor,
+        scaffoldBackgroundColor: Colors.white,
       ),
       onGenerateRoute: GenericRouter.generateRoute,
       initialRoute: GenericRouter.splashRoute,
