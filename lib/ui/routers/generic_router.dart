@@ -60,7 +60,7 @@ class GenericRouter {
           builder: (_) {
             return Scaffold(
               body: Center(
-                child: Text('BUG: Rota não definida para ${settings.name}'),
+                child: Text('Rota não definida para ${settings.name}'),
               ),
             );
           },
