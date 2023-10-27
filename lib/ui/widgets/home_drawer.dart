@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gami_acad/ui/controllers/home_controller.dart';
 import 'package:gami_acad/ui/routers/generic_router.dart';
+import 'package:gami_acad/ui/utils/app_texts.dart';
 import 'package:gami_acad/ui/utils/extensions/string_extension.dart';
 import 'package:gami_acad/ui/utils/view_state.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +35,7 @@ class HomeDrawer extends StatelessWidget {
                                         alignment: Alignment.bottomLeft,
                                         height: 50,
                                         child: Text(
-                                          'Erro ao carregar os dados',
+                                          AppTexts.errorLoadingData,
                                           style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
@@ -44,7 +45,7 @@ class HomeDrawer extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 20),
                                       ListTile(
-                                        title: const Text('Recarregar'),
+                                        title: const Text(AppTexts.reload),
                                         trailing: Icon(
                                           Icons.replay_outlined,
                                           color: theme.primaryColor,
@@ -60,7 +61,7 @@ class HomeDrawer extends StatelessWidget {
                               ),
                             ),
                             ListTile(
-                              title: const Text('Sair'),
+                              title: const Text(AppTexts.logout),
                               trailing: Icon(
                                 Icons.exit_to_app,
                                 color: theme.primaryColor,
@@ -91,7 +92,7 @@ class HomeDrawer extends StatelessWidget {
                                         alignment: Alignment.bottomLeft,
                                         height: 50,
                                         child: Text(
-                                          'Bem-vindo, ${homeController.user.name.split(' ')[0].capitalize()}',
+                                          '${AppTexts.welcome}, ${homeController.user.name.split(' ')[0].capitalize()}',
                                           style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
@@ -101,7 +102,7 @@ class HomeDrawer extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 20),
                                       ListTile(
-                                        title: const Text('Recarregar'),
+                                        title: const Text(AppTexts.reload),
                                         trailing: Icon(
                                           Icons.replay_outlined,
                                           color: theme.primaryColor,
@@ -117,7 +118,7 @@ class HomeDrawer extends StatelessWidget {
                               ),
                             ),
                             ListTile(
-                              title: const Text('Sair'),
+                              title: const Text(AppTexts.logout),
                               trailing: Icon(
                                 Icons.exit_to_app,
                                 color: theme.primaryColor,

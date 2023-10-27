@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gami_acad/ui/utils/app_colors.dart';
+import 'package:gami_acad/ui/utils/app_texts.dart';
 
 class DefaultErrorScreen extends StatelessWidget {
   final String? message;
@@ -19,7 +20,7 @@ class DefaultErrorScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Erro:',
+            '${AppTexts.error}:',
             style: TextStyle(
               color: AppColors.defaultGrey,
               fontSize: 20,
