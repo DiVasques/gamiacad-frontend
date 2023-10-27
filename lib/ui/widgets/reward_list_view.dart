@@ -48,7 +48,8 @@ class RewardListView extends StatelessWidget {
                                 color: Colors.black54,
                               ),
                               Text(
-                                  'Não há recompensas ${title.toLowerCase()} no momento.'),
+                                '${AppTexts.noRewards} ${title.toLowerCase()} ${AppTexts.atTheMoment}.',
+                              ),
                             ],
                           ),
                         ),
@@ -61,8 +62,8 @@ class RewardListView extends StatelessWidget {
                       BaseReward reward = rewardsList.elementAt(index);
                       return DefaultListTile(
                         title: reward.name,
-                        subTitle: '#${reward.number}',
-                        trailingTextTitle: 'Preço:',
+                        subTitle: '#${reward.number.toStringLeadingZeroes()}',
+                        trailingTextTitle: '${AppTexts.price}:',
                         trailingText: reward.price.toStringDecimal(),
                         onTap: () async {
                           await Navigator.of(context).pushNamed(
