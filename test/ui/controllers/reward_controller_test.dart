@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gami_acad/repository/models/exceptions/service_unavailable_exception.dart';
+import 'package:gami_acad/repository/models/exceptions/unauthorized_exception.dart';
 import 'package:gami_acad/repository/reward_repository.dart';
 import 'package:gami_acad/repository/models/base_reward.dart';
 import 'package:gami_acad/repository/models/result.dart';
@@ -69,6 +71,39 @@ void main() {
 
         // Assert
         expect(rewardController.errorMessage, 'Error');
+        expect(rewardController.state, ViewState.error);
+      });
+
+      test('should throw when unauthorized', () async {
+        // Arrange
+        when(rewardRepository.getUserRewards(userId: userId))
+            .thenThrow((_) async => UnauthorizedException);
+        rewardController = RewardController(
+          userId: userId,
+          rewardRepository: rewardRepository,
+        );
+
+        // Act and Assert
+        try {
+          await rewardController.getUserRewards();
+        } catch (e) {
+          expect(e.runtimeType, UnauthorizedException);
+        }
+      });
+
+      test('should return error when another exception', () async {
+        // Arrange
+        when(rewardRepository.getUserRewards(userId: userId))
+            .thenThrow((_) async => ServiceUnavailableException);
+        rewardController = RewardController(
+          userId: userId,
+          rewardRepository: rewardRepository,
+        );
+
+        // Act
+        await rewardController.getUserRewards();
+
+        // Assert
         expect(rewardController.state, ViewState.error);
       });
     });

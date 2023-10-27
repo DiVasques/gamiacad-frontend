@@ -45,3 +45,6 @@ app.*.map.json
 
 # Env
 .env
+
+# Test Coverage
+**/coverage

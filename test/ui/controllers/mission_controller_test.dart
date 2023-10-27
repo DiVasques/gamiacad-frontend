@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gami_acad/repository/mission_repository.dart';
 import 'package:gami_acad/repository/models/base_mission.dart';
+import 'package:gami_acad/repository/models/exceptions/service_unavailable_exception.dart';
+import 'package:gami_acad/repository/models/exceptions/unauthorized_exception.dart';
 import 'package:gami_acad/repository/models/result.dart';
 import 'package:gami_acad/repository/models/user_missions.dart';
 import 'package:gami_acad/ui/controllers/mission_controller.dart';
@@ -69,6 +71,39 @@ void main() {
 
         // Assert
         expect(missionController.errorMessage, 'Error');
+        expect(missionController.state, ViewState.error);
+      });
+
+      test('should throw when unauthorized', () async {
+        // Arrange
+        when(missionRepository.getUserMissions(userId: userId))
+            .thenThrow((_) async => UnauthorizedException);
+        missionController = MissionController(
+          userId: userId,
+          missionRepository: missionRepository,
+        );
+
+        // Act and Assert
+        try {
+          await missionController.getUserMissions();
+        } catch (e) {
+          expect(e.runtimeType, UnauthorizedException);
+        }
+      });
+
+      test('should return error when another exception', () async {
+        // Arrange
+        when(missionRepository.getUserMissions(userId: userId))
+            .thenThrow((_) async => ServiceUnavailableException);
+        missionController = MissionController(
+          userId: userId,
+          missionRepository: missionRepository,
+        );
+
+        // Act
+        await missionController.getUserMissions();
+
+        // Assert
         expect(missionController.state, ViewState.error);
       });
     });
