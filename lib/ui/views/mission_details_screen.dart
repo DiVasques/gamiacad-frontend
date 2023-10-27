@@ -62,7 +62,7 @@ class MissionDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '#${missionDetailsController.mission.number}',
+                                '#${missionDetailsController.mission.number.toStringLeadingZeroes()}',
                                 textAlign: TextAlign.justify,
                               )
                             ],

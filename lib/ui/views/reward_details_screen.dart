@@ -63,7 +63,7 @@ class RewardDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '#${rewardDetailsController.reward.number}',
+                                '#${rewardDetailsController.reward.number.toStringLeadingZeroes()}',
                                 textAlign: TextAlign.justify,
                               )
                             ],

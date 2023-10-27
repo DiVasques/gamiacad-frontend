@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 import 'package:gami_acad/ui/utils/app_colors.dart';
+import 'package:gami_acad/ui/utils/app_texts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:gami_acad/middlewares/unauthorized_interceptor.dart';
 import 'package:gami_acad/ui/routers/generic_router.dart';
@@ -22,7 +23,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'GamiAcad',
+      title: AppTexts.gamiAcad,
       navigatorKey: globalNavigatorKey,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

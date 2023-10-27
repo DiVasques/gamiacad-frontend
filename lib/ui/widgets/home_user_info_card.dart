@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gami_acad/ui/controllers/home_controller.dart';
+import 'package:gami_acad/ui/utils/app_texts.dart';
 import 'package:gami_acad/ui/utils/dimensions.dart';
 import 'package:gami_acad/ui/utils/extensions/int_extension.dart';
 import 'package:gami_acad/ui/utils/extensions/string_extension.dart';
@@ -58,7 +59,7 @@ class HomeUserInfoCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              'Meus Créditos',
+                              AppTexts.myCredits,
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             Dimensions.heightSpacer(10.0),
@@ -88,7 +89,7 @@ class HomeUserInfoCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              'Pontos Totais',
+                              AppTexts.totalPoints,
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             Dimensions.heightSpacer(10.0),
