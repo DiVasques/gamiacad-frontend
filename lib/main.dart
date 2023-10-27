@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
+import 'package:gami_acad/ui/utils/app_colors.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:gami_acad/middlewares/unauthorized_interceptor.dart';
 import 'package:gami_acad/ui/routers/generic_router.dart';
@@ -16,7 +17,6 @@ void main() async {
 }
 
 class MainApp extends StatelessWidget {
-  final Color primaryColor = const Color(0xFF1F5F02);
   const MainApp({super.key});
 
   @override
@@ -26,8 +26,8 @@ class MainApp extends StatelessWidget {
       navigatorKey: globalNavigatorKey,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          iconTheme: IconThemeData(color: primaryColor),
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(color: AppColors.primaryColor),
           elevation: 0,
           backgroundColor: Colors.transparent,
           centerTitle: true,
@@ -37,18 +37,18 @@ class MainApp extends StatelessWidget {
           elevation: 0,
         ),
         colorScheme: ColorScheme.fromSeed(
-          seedColor: primaryColor,
+          seedColor: AppColors.primaryColor,
         ),
         dividerTheme: const DividerThemeData(
           space: 2,
           color: Colors.black54,
         ),
-        floatingActionButtonTheme: FloatingActionButtonThemeData(
-          backgroundColor: primaryColor,
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: AppColors.primaryColor,
           elevation: 2,
         ),
         fontFamily: 'Montserrat',
-        primaryColor: primaryColor,
+        primaryColor: AppColors.primaryColor,
         scaffoldBackgroundColor: Colors.white,
       ),
       onGenerateRoute: GenericRouter.generateRoute,
