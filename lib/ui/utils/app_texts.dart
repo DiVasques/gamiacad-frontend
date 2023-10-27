@@ -1,10 +1,13 @@
 class AppTexts {
   static const at = 'às';
+  static const atTheMoment = 'no momento';
   static const cancel = 'Cancelar';
   static const confirmation = 'Confirmação';
   static const details = 'Detalhes';
   static const error = 'Erro';
   static const expirationDate = 'Disponível até';
+  static const noMissions = 'Não há missões';
+  static const noRewards = 'Não há recompensas';
   static const points = 'Pontos';
   static const price = 'Preço';
   static const retry = 'Tentar Novamente';

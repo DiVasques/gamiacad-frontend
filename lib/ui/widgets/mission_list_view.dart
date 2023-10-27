@@ -48,7 +48,8 @@ class MissionListView extends StatelessWidget {
                                 color: Colors.black54,
                               ),
                               Text(
-                                  'Não há missões ${title.toLowerCase()} no momento.'),
+                                '${AppTexts.noMissions} ${title.toLowerCase()} ${AppTexts.atTheMoment}.',
+                              ),
                             ],
                           ),
                         ),
@@ -61,8 +62,8 @@ class MissionListView extends StatelessWidget {
                       BaseMission mission = missionsList.elementAt(index);
                       return DefaultListTile(
                         title: mission.name,
-                        subTitle: '#${mission.number}',
-                        trailingTextTitle: 'Pontos:',
+                        subTitle: '#${mission.number.toStringLeadingZeroes()}',
+                        trailingTextTitle: '${AppTexts.points}:',
                         trailingText: mission.points.toStringDecimal(),
                         onTap: () async {
                           await Navigator.of(context).pushNamed(
