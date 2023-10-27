@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gami_acad/repository/models/exceptions/service_unavailable_exception.dart';
+import 'package:gami_acad/repository/models/exceptions/unauthorized_exception.dart';
 import 'package:gami_acad/repository/reward_repository.dart';
 import 'package:gami_acad/repository/models/base_reward.dart';
 import 'package:gami_acad/repository/models/result.dart';
@@ -75,6 +77,46 @@ void main() {
         expect(result, 'Error');
         expect(rewardDetailsController.state, ViewState.idle);
       });
+
+      test('should throw when unauthorized', () async {
+        // Arrange
+        when(rewardRepository.claimReward(
+          userId: userId,
+          rewardId: reward.id,
+        )).thenThrow((_) async => UnauthorizedException);
+        rewardDetailsController = RewardDetailsController(
+          userId: userId,
+          reward: reward,
+          rewardRepository: rewardRepository,
+        );
+
+        // Act and Assert
+        try {
+          await rewardDetailsController.claimReward();
+        } catch (e) {
+          expect(e.runtimeType, UnauthorizedException);
+        }
+      });
+
+      test('should return error message when another exception', () async {
+        // Arrange
+        when(rewardRepository.claimReward(
+          userId: userId,
+          rewardId: reward.id,
+        )).thenThrow((_) async => ServiceUnavailableException);
+        rewardDetailsController = RewardDetailsController(
+          userId: userId,
+          reward: reward,
+          rewardRepository: rewardRepository,
+        );
+
+        // Act
+        var result = await rewardDetailsController.claimReward();
+
+        // Assert
+        expect(result?.isNotEmpty, true);
+        expect(rewardDetailsController.state, ViewState.idle);
+      });
     });
 
     group('cancelClaim', () {
@@ -116,6 +158,46 @@ void main() {
 
         // Assert
         expect(result, 'Error');
+        expect(rewardDetailsController.state, ViewState.idle);
+      });
+
+      test('should throw when unauthorized', () async {
+        // Arrange
+        when(rewardRepository.cancelClaim(
+          userId: userId,
+          rewardId: reward.id,
+        )).thenThrow((_) async => UnauthorizedException);
+        rewardDetailsController = RewardDetailsController(
+          userId: userId,
+          reward: reward,
+          rewardRepository: rewardRepository,
+        );
+
+        // Act and Assert
+        try {
+          await rewardDetailsController.cancelClaim();
+        } catch (e) {
+          expect(e.runtimeType, UnauthorizedException);
+        }
+      });
+
+      test('should return error message when another exception', () async {
+        // Arrange
+        when(rewardRepository.cancelClaim(
+          userId: userId,
+          rewardId: reward.id,
+        )).thenThrow((_) async => ServiceUnavailableException);
+        rewardDetailsController = RewardDetailsController(
+          userId: userId,
+          reward: reward,
+          rewardRepository: rewardRepository,
+        );
+
+        // Act
+        var result = await rewardDetailsController.cancelClaim();
+
+        // Assert
+        expect(result?.isNotEmpty, true);
         expect(rewardDetailsController.state, ViewState.idle);
       });
     });
