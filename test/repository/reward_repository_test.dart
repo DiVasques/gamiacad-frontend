@@ -48,6 +48,7 @@ void main() {
           statusCode: 200,
           statusMessage: 'Success',
           data: {
+            'balance': 0,
             'available': [baseReward.toJson()],
             'claimed': [],
             'received': [],
@@ -65,6 +66,7 @@ void main() {
         // Assert
         expect(result.status, true);
         expect(result.message, 'Success');
+        expect(rewardRepository.userRewards.balance, 0);
         expect(rewardRepository.userRewards.available[0].id, baseReward.id);
         expect(rewardRepository.userRewards.available[0].name, baseReward.name);
         expect(

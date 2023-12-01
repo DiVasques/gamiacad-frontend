@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gami_acad/ui/controllers/home_controller.dart';
 import 'package:gami_acad/ui/routers/generic_router.dart';
+import 'package:gami_acad/ui/utils/app_colors.dart';
+import 'package:gami_acad/ui/utils/app_texts.dart';
+import 'package:gami_acad/ui/utils/dimensions.dart';
 import 'package:gami_acad/ui/utils/view_state.dart';
 import 'package:gami_acad/ui/widgets/default_error_screen.dart';
 import 'package:gami_acad/ui/widgets/default_loading_screen.dart';
@@ -25,7 +28,7 @@ class HomeScreen extends StatelessWidget {
             drawer: const HomeDrawer(),
             appBar: AppBar(
               title: Text(
-                'GamiAcad',
+                AppTexts.gamiAcad,
                 style: TextStyle(
                   color: theme.primaryColor,
                   fontWeight: FontWeight.bold,
@@ -56,28 +59,91 @@ class HomeScreen extends StatelessWidget {
                               const SizedBox(
                                 height: 10,
                               ),
-                              IconButton(
-                                onPressed: () async {
-                                  await Navigator.of(context).pushNamed(
-                                    GenericRouter.missionRoute,
-                                    arguments: userId,
-                                  );
-                                  homeController.getUser();
-                                },
-                                icon: const Icon(Icons.grading_outlined),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              IconButton(
-                                onPressed: () async {
-                                  await Navigator.of(context).pushNamed(
-                                    GenericRouter.rewardRoute,
-                                    arguments: userId,
-                                  );
-                                  homeController.getUser();
-                                },
-                                icon: const Icon(Icons.card_giftcard),
+                              Wrap(
+                                alignment: WrapAlignment.center,
+                                direction: Axis.horizontal,
+                                children: [
+                                  SizedBox(
+                                    width: 150,
+                                    height: 100,
+                                    child: Card(
+                                      elevation: Dimensions.cardElevation,
+                                      child: InkWell(
+                                        onTap: () async {
+                                          await Navigator.of(context).pushNamed(
+                                            GenericRouter.missionRoute,
+                                            arguments: userId,
+                                          );
+                                          homeController.getUser();
+                                        },
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(8.5),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.checklist_rounded,
+                                                color: AppColors.primaryColor,
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(
+                                                'Missões',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 150,
+                                    height: 100,
+                                    child: Card(
+                                      elevation: Dimensions.cardElevation,
+                                      child: InkWell(
+                                        onTap: () async {
+                                          await Navigator.of(context).pushNamed(
+                                            GenericRouter.rewardRoute,
+                                            arguments: userId,
+                                          );
+                                          homeController.getUser();
+                                        },
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(8.5),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.shopping_basket_rounded,
+                                                color: AppColors.primaryColor,
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(
+                                                'Recompensas',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
                             ],
                           ),
