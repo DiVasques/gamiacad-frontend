@@ -36,7 +36,13 @@ void main() {
         updatedAt: DateTime.now(),
       );
       when(rewardRepository.userRewards).thenReturn(
-          UserRewards(available: [baseReward], claimed: [], received: []));
+        UserRewards(
+          balance: 0,
+          available: [baseReward],
+          claimed: [],
+          received: [],
+        ),
+      );
     });
 
     group('getUserRewards', () {

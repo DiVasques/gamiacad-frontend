@@ -1,5 +1,3 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gami_acad/repository/models/result.dart';
@@ -103,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Image(
                                   fit: BoxFit.contain,
                                   image: AssetImage(
-                                    'assets/images/logo_poli.png',
+                                    'assets/images/logo_del.png',
                                   ),
                                 ),
                               ),

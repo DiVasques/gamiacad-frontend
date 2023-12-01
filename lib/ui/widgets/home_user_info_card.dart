@@ -19,27 +19,23 @@ class HomeUserInfoCard extends StatelessWidget {
             padding: const EdgeInsets.all(8.5),
             child: Column(
               children: <Widget>[
-                InkWell(
-                  borderRadius: BorderRadius.circular(5),
-                  onTap: () => {},
-                  child: Column(
-                    children: [
-                      Dimensions.heightSpacer(),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          Dimensions.widthSpacer(),
-                          Expanded(
-                            child: Text(
-                              homeController.user.name.toTitleCase(),
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
+                Column(
+                  children: [
+                    Dimensions.heightSpacer(),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Dimensions.widthSpacer(),
+                        Expanded(
+                          child: Text(
+                            homeController.user.name.toTitleCase(),
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
-                        ],
-                      ),
-                      Dimensions.heightSpacer(Dimensions.smallPadding * 2),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                    Dimensions.heightSpacer(Dimensions.smallPadding * 2),
+                  ],
                 ),
                 const Divider(
                   thickness: 1.5,
@@ -58,9 +54,11 @@ class HomeUserInfoCard extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text(
+                            const Text(
                               AppTexts.myCredits,
-                              style: Theme.of(context).textTheme.bodyMedium,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                             Dimensions.heightSpacer(10.0),
                             Text(
@@ -88,9 +86,11 @@ class HomeUserInfoCard extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text(
+                            const Text(
                               AppTexts.totalPoints,
-                              style: Theme.of(context).textTheme.bodyMedium,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                             Dimensions.heightSpacer(10.0),
                             Text(

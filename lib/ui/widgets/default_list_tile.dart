@@ -18,7 +18,12 @@ class DefaultListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(title),
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontWeight: FontWeight.w600,
+        ),
+      ),
       subtitle: Text(subTitle ?? ''),
       trailing: trailingTextTitle == null
           ? Text(trailingText ?? '')
@@ -27,7 +32,12 @@ class DefaultListTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(trailingTextTitle ?? '', textScaleFactor: .8),
-                Text(trailingText ?? '')
+                Text(
+                  trailingText ?? '',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
               ],
             ),
       style: ListTileStyle.list,
