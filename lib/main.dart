@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 import 'package:gami_acad/ui/utils/app_colors.dart';
@@ -14,7 +15,10 @@ void main() async {
   initializeDateFormatting('pt_BR');
   await dotenv.load();
   PlatformDispatcher.instance.onError = UnauthorizedInterceptor.onError;
-  runApp(const MainApp());
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(const MainApp());
+  });
 }
 
 class MainApp extends StatelessWidget {
