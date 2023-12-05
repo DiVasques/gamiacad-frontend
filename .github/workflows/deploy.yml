@@ -1,0 +1,48 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Deploy
+
+on:
+  pull_request:
+    types: closed
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create .env file
+        run: |
+          cat > .env <<EOF
+          GAMIACAD_API_URL=${{ vars.GAMIACAD_API_URL }}
+          CLIENT_ID=${{ secrets.CLIENT_ID }}
+          EOF
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.13.1'
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build
+        run: flutter build apk --release --no-tree-shake-icons
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Deploy static web site to S3 bucket
+        run: aws s3 sync .build/app/outputs/apk/release/app-release.apk s3://${{ vars.AWS_BUCKET_NAME }} --delete
