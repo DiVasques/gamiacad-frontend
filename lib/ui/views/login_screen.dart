@@ -4,7 +4,9 @@ import 'package:gami_acad/repository/models/result.dart';
 import 'package:gami_acad/ui/controllers/login_controller.dart';
 import 'package:gami_acad/ui/routers/generic_router.dart';
 import 'package:gami_acad/ui/utils/app_colors.dart';
+import 'package:gami_acad/ui/utils/app_texts.dart';
 import 'package:gami_acad/ui/utils/dimensions.dart';
+import 'package:gami_acad/ui/utils/error_messages.dart';
 import 'package:gami_acad/ui/utils/validators.dart';
 import 'package:gami_acad/ui/utils/view_state.dart';
 import 'package:gami_acad/ui/widgets/default_text_field.dart';
@@ -134,8 +136,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                             child: Text(
                                               loginController.loginState ==
                                                       LoginState.login
-                                                  ? 'Login'
-                                                  : 'Cadastrar',
+                                                  ? AppTexts.signIn
+                                                  : AppTexts.signUp,
                                               style: const TextStyle(
                                                 color: Colors.black54,
                                                 fontWeight: FontWeight.bold,
@@ -203,8 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: DefaultTextField(
-          labelText: 'CPF',
-          initValue: '12345678909',
+          labelText: AppTexts.registration,
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
           validator: FieldValidators.validateRegistration,
@@ -222,8 +223,7 @@ class _LoginScreenState extends State<LoginScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: DefaultTextField(
           obscureText: true,
-          labelText: 'Senha',
-          initValue: 'V!12341234123',
+          labelText: AppTexts.password,
           keyboardType: TextInputType.visiblePassword,
           textInputAction: TextInputAction.done,
           validator: FieldValidators.validatePwd,
@@ -247,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: DefaultTextField(
-          labelText: 'Nome',
+          labelText: AppTexts.name,
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.next,
           onSaved: (value) => loginController.name = value,
@@ -264,7 +264,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: DefaultTextField(
-          labelText: 'Email',
+          labelText: AppTexts.email,
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
           validator: FieldValidators.validateEmail,
@@ -281,7 +281,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: DefaultTextField(
-          labelText: 'CPF',
+          labelText: AppTexts.registration,
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
           validator: FieldValidators.validateRegistration,
@@ -312,7 +312,7 @@ class _LoginScreenState extends State<LoginScreen> {
           onSaved: (value) => loginController.password = value,
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            labelText: 'Senha',
+            labelText: AppTexts.password,
             fillColor: Colors.white,
             filled: true,
             border:
@@ -332,7 +332,9 @@ class _LoginScreenState extends State<LoginScreen> {
           controller: _confirmPass,
           onSaved: (value) => loginController.confirmPassword = value,
           validator: (val) {
-            if (val != _pass.text) return 'Senhas não são iguais';
+            if (val != _pass.text) {
+              return ErrorMessages.invalidConfirmPassword;
+            }
             return null;
           },
           onFieldSubmitted: (_) {
@@ -341,7 +343,7 @@ class _LoginScreenState extends State<LoginScreen> {
           },
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            labelText: 'Confirmar Senha',
+            labelText: AppTexts.confirmPassword,
             fillColor: Colors.white,
             filled: true,
             border:
@@ -376,8 +378,8 @@ class _LoginScreenState extends State<LoginScreen> {
         child: loginController.state == ViewState.idle
             ? Text(
                 loginController.loginState == LoginState.login
-                    ? 'Entrar'
-                    : 'Cadastrar',
+                    ? AppTexts.signIn
+                    : AppTexts.signUp,
                 textAlign: TextAlign.start,
                 style: const TextStyle(
                   color: Colors.white,
@@ -413,7 +415,7 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const Text(
-                'Não tem uma conta?',
+                AppTexts.haveNoAccount,
                 textAlign: TextAlign.left,
                 style: TextStyle(color: Colors.black, fontSize: 15),
               ),
@@ -423,7 +425,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   loginController.loginState = LoginState.signUp;
                 },
                 child: Text(
-                  'Inscreva-se',
+                  AppTexts.signUpAction,
                   textAlign: TextAlign.left,
                   style: TextStyle(color: Theme.of(context).primaryColor),
                 ),
@@ -493,10 +495,10 @@ class _LoginScreenState extends State<LoginScreen> {
       title: Center(
         child: result.code == 201
             ? const Text(
-                'Alerta',
+                AppTexts.alert,
                 style: TextStyle(color: Colors.grey),
               )
-            : const Text('Erro', style: TextStyle(color: Colors.grey)),
+            : const Text(AppTexts.error, style: TextStyle(color: Colors.grey)),
       ),
       content: Text(
         result.message ?? '',
@@ -506,7 +508,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       actions: [
         TextButton(
-          child: const Text('Fechar'),
+          child: const Text(AppTexts.close),
           onPressed: () {
             Navigator.of(context).pop();
           },

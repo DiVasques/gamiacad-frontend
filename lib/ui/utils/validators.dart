@@ -1,3 +1,5 @@
+import 'package:gami_acad/ui/utils/error_messages.dart';
+
 class FieldValidators {
   static String? validateEmail(String? input) {
     input!.trim();
@@ -6,17 +8,21 @@ class FieldValidators {
     if (validEmailPattern.hasMatch(input)) {
       return null;
     } else {
-      return 'E-mail Inválido';
+      return ErrorMessages.invalidEmail;
     }
   }
 
   static String? validatePwd(String? input) {
     int pwdLength = input!.length;
+    RegExp validPasswordPattern =
+        RegExp(r'^(?=.*\d)(?=.*[A-Za-z])(?=.*\W).{12,}$');
     if (pwdLength < 12) {
-      return 'Senha deve ter mais de 12 caracteres';
-    } else {
-      return null;
+      return ErrorMessages.invalidPasswordLength;
     }
+    if (!validPasswordPattern.hasMatch(input)) {
+      return ErrorMessages.invalidPassword;
+    }
+    return null;
   }
 
   static String? validateRegistration(String? input) {
@@ -25,29 +31,18 @@ class FieldValidators {
     if (validRegistrationPattern.hasMatch(input)) {
       return null;
     } else {
-      return 'CPF inválido';
+      return ErrorMessages.invalidRegistration;
     }
-  }
-
-  static String? validatePwdMatch(String? confirmPwd, String? pwd) {
-    if (confirmPwd != pwd) return 'Senhas devem ser iguais';
-    return null;
   }
 
   static String? validateName(String? input) {
     input!.trim();
-    RegExp validRegistrationPattern = RegExp(r'^[a-zA-Z0-9 À-ÿ]{5,50}$');
+    RegExp validRegistrationPattern =
+        RegExp(r'''^[ \p{L}\p{N}`'-]{5,50}$''', unicode: true);
     if (validRegistrationPattern.hasMatch(input)) {
       return null;
     } else {
-      return 'Nome inválido';
+      return ErrorMessages.invalidName;
     }
-  }
-
-  static String? validateNotEmpty(String? input) {
-    if (input == null || input.isEmpty) {
-      return 'Campo Obrigatório';
-    }
-    return null;
   }
 }

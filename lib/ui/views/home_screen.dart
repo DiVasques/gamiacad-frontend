@@ -92,7 +92,7 @@ class HomeScreen extends StatelessWidget {
                                                 height: 5,
                                               ),
                                               Text(
-                                                'Missões',
+                                                AppTexts.missions,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w600,
                                                 ),
@@ -132,7 +132,7 @@ class HomeScreen extends StatelessWidget {
                                                 height: 5,
                                               ),
                                               Text(
-                                                'Recompensas',
+                                                AppTexts.rewards,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w600,
                                                 ),
